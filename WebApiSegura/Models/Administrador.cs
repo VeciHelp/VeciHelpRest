@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
 using VeciHelp.BD;
+using VeciHelp.Models.Usuarios;
 
 namespace VeciHelp.Models
 {
@@ -43,7 +44,7 @@ namespace VeciHelp.Models
 
         public bool m_CodigoVerificacionUsuarioGenera(string correo, int idUsuarioCreador)
         {
-            BaseDatos bd = new BaseDatos();
+            bd = new BaseDatos();
 
             if (bd.p_CodigoVerificacionUsuarioGenera(correo, idUsuarioCreador))
             {
@@ -51,6 +52,46 @@ namespace VeciHelp.Models
             }
             else
                 return false;
+        }
+
+        public bool m_AsociacionVecinoIns(int idUsuario,int idVecino,int idAdmin)
+        {
+            bd = new BaseDatos();
+
+            if (bd.p_AsociacionVecinoIns(idUsuario,idVecino,idAdmin))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool m_AsociacionVecinoDel(int idUsuario, int idVecino, int idAdmin)
+        {
+            bd = new BaseDatos();
+
+            if (bd.p_AsociacionVecinoDel(idUsuario, idVecino, idAdmin))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public List<Usuario> m_AsociacionVecinosLst(int idUsuario)
+        {
+            bd = new BaseDatos();
+            List<Usuario> usrList;
+
+            try
+            {
+                usrList = bd.p_AsociacionVecinosLst(idUsuario);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
+            return usrList;
         }
 
 

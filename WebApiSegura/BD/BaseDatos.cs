@@ -210,7 +210,7 @@ namespace VeciHelp.BD
         //metodo con el cual el administrador asocia los usuarios con los vecinos cercanos
         public bool p_AsociacionVecinoIns(int idUsuario,int idVecino,int idAdmin)
         {
-            String _sql = string.Format("p_CodigoVerificacionUsuarioGenera");
+            String _sql = string.Format("p_AsociacionVecinoIns");
             try
             {
                 if (this.Open())

@@ -149,16 +149,16 @@ namespace VeciHelp.BD
 
 
                     sqlComm.Parameters[0].Value = correo;
-                    sqlComm.Parameters[0].Value = codigoVerificacion;
-                    sqlComm.Parameters[0].Value = nombre;
-                    sqlComm.Parameters[0].Value = apellido;
-                    sqlComm.Parameters[0].Value = rut;
-                    sqlComm.Parameters[0].Value = digito;
-                    sqlComm.Parameters[0].Value = antecedentesSalud;
-                    sqlComm.Parameters[0].Value = fechaNacimiento;
-                    sqlComm.Parameters[0].Value = celular;
-                    sqlComm.Parameters[0].Value = direccion;
-                    sqlComm.Parameters[0].Value = clave;
+                    sqlComm.Parameters[1].Value = codigoVerificacion;
+                    sqlComm.Parameters[2].Value = nombre;
+                    sqlComm.Parameters[3].Value = apellido;
+                    sqlComm.Parameters[4].Value = rut;
+                    sqlComm.Parameters[5].Value = digito;
+                    sqlComm.Parameters[6].Value = antecedentesSalud;
+                    sqlComm.Parameters[7].Value = fechaNacimiento;
+                    sqlComm.Parameters[8].Value = celular;
+                    sqlComm.Parameters[9].Value = direccion;
+                    sqlComm.Parameters[10].Value = clave;
 
                     sqlComm.ExecuteNonQuery();
 
@@ -321,6 +321,43 @@ namespace VeciHelp.BD
 
         #region Usuarios
 
+        //metodo que retorna los datos de un usuario en especifico por id
+        public Usuario p_UsuarioGet(int idUsuario)
+        {
+            Usuario usr = new Usuario();
+
+            String _sql = string.Format("p_UsuarioGet");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters[0].Value = idUsuario;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                            usr.nombre = dr[0].ToString();
+                            usr.apellido = dr[1].ToString();
+                            usr.direccion = dr[2].ToString();
+                            usr.celular = dr[3].ToString();
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+
+            return usr;
+        }
+
         //metodo para que el usuario se registre, esto debe hacerse posterior a ser enrolado por un administrador
         public bool p_UsuarioIns(string correo, string codigoVerificacion, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, string clave)
         {
@@ -346,16 +383,16 @@ namespace VeciHelp.BD
 
 
                     sqlComm.Parameters[0].Value = correo;
-                    sqlComm.Parameters[0].Value = codigoVerificacion;
-                    sqlComm.Parameters[0].Value = nombre;
-                    sqlComm.Parameters[0].Value = apellido;
-                    sqlComm.Parameters[0].Value = rut;
-                    sqlComm.Parameters[0].Value = digito;
-                    sqlComm.Parameters[0].Value = antecedentesSalud;
-                    sqlComm.Parameters[0].Value = fechaNacimiento;
-                    sqlComm.Parameters[0].Value = celular;
-                    sqlComm.Parameters[0].Value = direccion;
-                    sqlComm.Parameters[0].Value = clave;
+                    sqlComm.Parameters[1].Value = codigoVerificacion;
+                    sqlComm.Parameters[2].Value = nombre;
+                    sqlComm.Parameters[3].Value = apellido;
+                    sqlComm.Parameters[4].Value = rut;
+                    sqlComm.Parameters[5].Value = digito;
+                    sqlComm.Parameters[6].Value = antecedentesSalud;
+                    sqlComm.Parameters[7].Value = fechaNacimiento;
+                    sqlComm.Parameters[8].Value = celular;
+                    sqlComm.Parameters[9].Value = direccion;
+                    sqlComm.Parameters[10].Value = clave;
 
                     sqlComm.ExecuteNonQuery();
 

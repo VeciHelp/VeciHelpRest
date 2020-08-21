@@ -46,12 +46,7 @@ namespace VeciHelp.Models
         {
             bd = new BaseDatos();
 
-            if (bd.p_CodigoVerificacionUsuarioGenera(correo, idUsuarioCreador))
-            {
-                return true;
-            }
-            else
-                return false;
+            return bd.p_CodigoVerificacionUsuarioGenera(correo, idUsuarioCreador);
         }
 
         public bool m_AsociacionVecinoIns(int idUsuario,int idVecino,int idAdmin)

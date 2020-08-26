@@ -31,7 +31,7 @@ namespace VeciHelp.Controllers
             Administrador admin = new Administrador();
             var respuesta = "error";
 
-            if (admin.m_CodigoVerificacionUsuarioGenera(adminis.correo, adminis.idUsuarioCreador))
+            if (admin.M_CodigoVerificacionUsuarioGenera(adminis.correo, adminis.idUsuarioCreador))
             {
                 respuesta = "usuario Enrolado Correctamente";
 

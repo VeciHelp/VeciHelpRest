@@ -115,7 +115,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Models\Administrador.cs" />
-    <Compile Include="Models\Usuarios\Usuario.cs" />
+    <Compile Include="Models\Alerta.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Security\TokenGenerator.cs" />
     <Compile Include="Security\TokenValidationHandler.cs" />
     <Compile Include="Global.asax.cs">

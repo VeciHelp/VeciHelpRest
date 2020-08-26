@@ -5,7 +5,8 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 using System.ComponentModel.DataAnnotations;
-using VeciHelp.Models.Usuarios;
+using WebApiSegura.Models;
+using System.Drawing;
 
 namespace VeciHelp.BD
 {
@@ -301,7 +302,7 @@ namespace VeciHelp.BD
                             usr.nombre = dr[0].ToString();
                             usr.apellido = dr[1].ToString();
                             usr.direccion = dr[2].ToString();
-                            usr.celular = dr[3].ToString();
+                            usr.celular = int.Parse(dr[3].ToString());
                             usrLst.Add(usr);
                         }
 
@@ -344,7 +345,7 @@ namespace VeciHelp.BD
                             usr.nombre = dr[0].ToString();
                             usr.apellido = dr[1].ToString();
                             usr.direccion = dr[2].ToString();
-                            usr.celular = dr[3].ToString();
+                            usr.celular = int.Parse(dr[3].ToString());
                     }
                     this.Close();
                 }
@@ -491,7 +492,194 @@ namespace VeciHelp.BD
         #endregion
 
         #region Alertas
+        public bool P_AlertaSospechaIns(int idUsuario,string coordenadas,string texto, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_AlertaSospechaIns");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
 
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@CoordenadaSospechosa", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@TextoSospecha", SqlDbType.VarChar, 500);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+
+                    sqlComm.Parameters[0].Value = idUsuario;
+                    sqlComm.Parameters[1].Value = coordenadas;
+                    sqlComm.Parameters[2].Value = texto;
+
+                    sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[3].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
+        }
+
+        public bool P_AlertaSOSIns(int idUsuario,int idVecino, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_AlertaSOSIns");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+
+                    sqlComm.Parameters[0].Value = idUsuario;
+                    sqlComm.Parameters[1].Value = idVecino;
+
+                    sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[2].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
+        }
+
+        public bool P_AlertaEmergenciaIns(int idUsuario, int idVecino, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_AlertaEmergenciaIns");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+
+                    sqlComm.Parameters[0].Value = idUsuario;
+                    sqlComm.Parameters[1].Value = idVecino;
+
+                    sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[2].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
+        }
+
+        public bool P_AcudirLlamadoIns(int idUsuario, int idAlerta, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_AcudirLlamadoIns");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Id_Alerta", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+
+                    sqlComm.Parameters[0].Value = idUsuario;
+                    sqlComm.Parameters[1].Value = idAlerta;
+
+                    sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[2].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
+        }
+
+        public List<Alerta> P_AlertaLst()
+        {
+            List<Alerta> alertLst = new List<Alerta>();
+
+            String _sql = string.Format("p_AlertaLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Alerta alert = new Alerta();
+
+                            alert.idAlerta = int.Parse(dr[0].ToString());
+                            alert.fechaAlerta = DateTime.Parse(dr[1].ToString());
+                            alert.horaAlerta = DateTime.Parse(dr[2].ToString());
+                            alert.TipoAlerta = dr[3].ToString();
+                            alert.nombreGenerador = dr[4].ToString();
+                            alert.apellidoGenerador = dr[5].ToString();
+                            alert.nombreAyuda = dr[6].ToString();
+                            alert.apellidoAyuda = dr[7].ToString();
+                            alert.coordenadaSospecha = dr[8].ToString();
+                            alert.textoSospecha = dr[9].ToString();
+                            alert.direccion = dr[10].ToString();
+                            alert.organizacion = dr[11].ToString();
+
+                            alertLst.Add(alert);
+                        }
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+            return alertLst;
+        }
         #endregion
     }
 }

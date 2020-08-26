@@ -4,12 +4,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
 using VeciHelp.BD;
-using VeciHelp.Models.Usuarios;
+using VeciHelp.Models;
+using WebApiSegura.Models;
 
 namespace VeciHelp.Models
 {
     public class Administrador
     {
+        public int idUser { get; set; }
         public string correo { get; set; }
         public string codigoVerificacion { get; set; }
         public string nombre { get; set; }
@@ -30,7 +32,7 @@ namespace VeciHelp.Models
 
         }
 
-        public bool m_UsuarioAdministradorIns()
+        public bool M_UsuarioAdministradorIns()
         {
             bd = new BaseDatos();
 
@@ -42,14 +44,14 @@ namespace VeciHelp.Models
            
         }
 
-        public bool m_CodigoVerificacionUsuarioGenera(string correo, int idUsuarioCreador)
+        public bool M_CodigoVerificacionUsuarioGenera(string correo, int idUsuarioCreador)
         {
             bd = new BaseDatos();
 
             return bd.p_CodigoVerificacionUsuarioGenera(correo, idUsuarioCreador);
         }
 
-        public bool m_AsociacionVecinoIns(int idUsuario,int idVecino,int idAdmin)
+        public bool M_AsociacionVecinoIns(int idUsuario,int idVecino,int idAdmin)
         {
             bd = new BaseDatos();
 
@@ -60,7 +62,7 @@ namespace VeciHelp.Models
             return false;
         }
 
-        public bool m_AsociacionVecinoDel(int idUsuario, int idVecino, int idAdmin)
+        public bool M_AsociacionVecinoDel(int idUsuario, int idVecino, int idAdmin)
         {
             bd = new BaseDatos();
 
@@ -71,7 +73,7 @@ namespace VeciHelp.Models
             return false;
         }
 
-        public List<Usuario> m_AsociacionVecinosLst(int idUsuario)
+        public List<Usuario> M_AsociacionVecinosLst(int idUsuario)
         {
             bd = new BaseDatos();
             List<Usuario> usrList;

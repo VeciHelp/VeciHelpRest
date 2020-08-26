@@ -51,44 +51,26 @@ namespace VeciHelp.Models
             return bd.p_CodigoVerificacionUsuarioGenera(correo, idUsuarioCreador);
         }
 
-        public bool M_AsociacionVecinoIns(int idUsuario,int idVecino,int idAdmin)
+        public bool M_AsociacionVecinoIns(int idUsuario, int idVecino, int idAdmin)
         {
             bd = new BaseDatos();
 
-            if (bd.p_AsociacionVecinoIns(idUsuario,idVecino,idAdmin))
-            {
-                return true;
-            }
-            return false;
+            return bd.p_AsociacionVecinoIns(idUsuario, idVecino, idAdmin)
         }
+
 
         public bool M_AsociacionVecinoDel(int idUsuario, int idVecino, int idAdmin)
         {
             bd = new BaseDatos();
 
-            if (bd.p_AsociacionVecinoDel(idUsuario, idVecino, idAdmin))
-            {
-                return true;
-            }
-            return false;
+            return bd.p_AsociacionVecinoDel(idUsuario, idVecino, idAdmin);
         }
 
         public List<Usuario> M_AsociacionVecinosLst(int idUsuario)
         {
             bd = new BaseDatos();
-            List<Usuario> usrList;
-
-            try
-            {
-                usrList = bd.p_AsociacionVecinosLst(idUsuario);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-          
-            return usrList;
+ 
+            return  bd.p_AsociacionVecinosLst(idUsuario);
         }
 
 

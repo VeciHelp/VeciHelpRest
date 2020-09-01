@@ -29,6 +29,44 @@ namespace WebApiSegura.Models
         }
 
 
+        private bool M_AlertaSospechaIns(int idUsuario, string coordenadas, string texto, out string mensaje)
+        {
+            mensaje = string.Empty;
+            bd = new BaseDatos();
+            return bd.P_AlertaSospechaIns(idUsuario, coordenadas,texto, out mensaje);
+        }
+
+        //sirve para las alertas en casa propia y para las alertas en casa vecino
+        private bool M_AlertaSOSIns(int idUsuario, int idvecino, out string mensaje)
+        {
+            mensaje = string.Empty;
+            bd = new BaseDatos();
+            return bd.P_AlertaSOSIns(idUsuario, idvecino, out mensaje);
+        }
+
+        //sirve para las alertas en casa propia y para las alertas en casa vecino
+        private bool M_AlertaEmergenciaIns(int idUsuario, int idvecino, out string mensaje)
+        {
+            mensaje = string.Empty;
+            bd = new BaseDatos();
+            return bd.P_AlertaEmergenciaIns(idUsuario, idvecino, out mensaje);
+        }
+
+        private bool M_AcudirLlamadoIns(int idUsuario,int idAlerta,out string mensaje)
+        {
+            mensaje = string.Empty;
+            bd = new BaseDatos();
+            return bd.P_AcudirLlamadoIns(idUsuario, idAlerta, out mensaje);
+        }
+
+        private List<Alerta> M_AlertaLst()
+        {
+            bd = new BaseDatos();
+            return bd.P_AlertaLst();
+        }
+
+
+
 
 
     }

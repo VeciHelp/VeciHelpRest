@@ -289,7 +289,7 @@ namespace VeciHelp.BD
                     SqlCommand sqlComm = new SqlCommand(_sql, cnn);
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
-                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
                     sqlComm.Parameters[0].Value = idUsuario;
 
                     SqlDataReader dr = sqlComm.ExecuteReader();

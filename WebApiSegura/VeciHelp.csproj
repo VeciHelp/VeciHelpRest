@@ -116,6 +116,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Models\Administrador.cs" />
     <Compile Include="Models\Alerta.cs" />
+    <Compile Include="Models\AsocRequest.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Security\TokenGenerator.cs" />
     <Compile Include="Security\TokenValidationHandler.cs" />

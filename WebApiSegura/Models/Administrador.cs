@@ -11,19 +11,19 @@ namespace VeciHelp.Models
 {
     public class Administrador
     {
-        public int idUser { get; set; }
-        public string correo { get; set; }
-        public string codigoVerificacion { get; set; }
-        public string nombre { get; set; }
-        public string apellido { get; set; }
-        public string rut { get; set; }
-        public char digito { get; set; }
-        public string antecedentesSalud { get; set; }
-        public DateTime fechaNacimiento { get; set; }
-        public int celular { get; set; }
-        public string direccion { get; set; }
-        public string clave { get; set; }
-        public int idUsuarioCreador { get; set; }
+        public int IdUser { get; set; }
+        public string Correo { get; set; }
+        public string CodigoVerificacion { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string Rut { get; set; }
+        public char Digito { get; set; }
+        public string AntecedentesSalud { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public int Celular { get; set; }
+        public string Direccion { get; set; }
+        public string Clave { get; set; }
+        public int IdUsuarioCreador { get; set; }
 
         private BaseDatos bd;
 
@@ -32,11 +32,17 @@ namespace VeciHelp.Models
 
         }
 
+        public Administrador(string correo,int idUsuarioCreador)
+        {
+            this.Correo = correo;
+            this.IdUsuarioCreador = idUsuarioCreador;
+        }
+
         public bool M_UsuarioAdministradorIns()
         {
             bd = new BaseDatos();
 
-            if (bd.p_UsuarioAdministradorIns(this.correo,this.codigoVerificacion,this.nombre,this.apellido,this.rut,this.digito,this.antecedentesSalud,this.fechaNacimiento,this.celular,this.direccion,this.clave))
+            if (bd.p_UsuarioAdministradorIns(this.Correo,this.CodigoVerificacion,this.Nombre,this.Apellido,this.Rut,this.Digito,this.AntecedentesSalud,this.FechaNacimiento,this.Celular,this.Direccion,this.Clave))
             {
                 return true;
             }

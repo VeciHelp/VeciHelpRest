@@ -13,16 +13,16 @@ namespace VeciHelp.Controllers
     public class AdminController : ApiController
     {
         [HttpPost]
-        [Route("CrearUsuario")]
-        //metodo para crear usuarios
-        public IHttpActionResult CrearUsuario(Administrador adminis)
+        [Route("CrearAdmin")]
+        //metodo para crear usuarios  **Listo
+        public IHttpActionResult CrearAdmin(Administrador adminis)
         {
 
             var respuesta = "error";
 
             if (adminis.M_UsuarioAdministradorIns())
             {
-                respuesta = "usuario Enrolado Correctamente";
+                respuesta = "usuario Creado Correctamente";
 
                 return Ok(respuesta);
             }
@@ -32,12 +32,12 @@ namespace VeciHelp.Controllers
 
         [HttpPost]
         [Route("EnrolarUsr")]
-        //metodo para enrolar usuarios
-        public IHttpActionResult EnrolarUsr(Administrador adminis)
+        //metodo para enrolar usuarios     **Listo, pero el sp debe agregar automaticamente el id de organizacion
+        public IHttpActionResult EnrolarUsr(Administrador admin)
         {
             var respuesta = "error";
 
-            if (adminis.M_CodigoVerificacionUsuarioGenera(adminis.correo, adminis.idUsuarioCreador))
+            if (admin.M_CodigoVerificacionUsuarioGenera(admin.Correo,admin.IdUsuarioCreador))
             {
                 respuesta = "usuario Enrolado Correctamente";
 
@@ -50,15 +50,15 @@ namespace VeciHelp.Controllers
 
         [HttpPost]
         [Route("InsAsocVecino")]
-        //metodo que crea asociaciones de vecinos
-        public IHttpActionResult InsAsocVecino(int idUsuario,int idVecino,int idAdmin)
+        //metodo que crea asociaciones de vecinos   **Listo
+        public IHttpActionResult InsAsocVecino(AsocRequest asoc)
         {
             Administrador adminis = new Administrador();
             var respuesta = "error";
 
-            if (adminis.M_AsociacionVecinoIns(idUsuario,idVecino,idAdmin))
+            if (adminis.M_AsociacionVecinoIns(asoc.idUsuario, asoc.idVecino, asoc.idAdmin))
             {
-                respuesta = "usuario Enrolado Correctamente";
+                respuesta = "usuario Asociado Correctamente";
 
                 return Ok(respuesta);
             }
@@ -68,15 +68,15 @@ namespace VeciHelp.Controllers
 
         [HttpDelete]
         [Route("DelAsocVecino")]
-        //metodo que elimina asociaciones
-        public IHttpActionResult DelAsocVecino(int idUsuario, int idVecino, int idAdmin)
+        //metodo que elimina asociaciones **Listo
+        public IHttpActionResult DelAsocVecino(AsocRequest asoc)
         {
             Administrador adminis = new Administrador();
             var respuesta = "error";
 
-            if (adminis.M_AsociacionVecinoDel(idUsuario, idVecino, idAdmin))
+            if (adminis.M_AsociacionVecinoDel(asoc.idUsuario, asoc.idVecino, asoc.idAdmin))
             {
-                respuesta = "usuario Enrolado Correctamente";
+                respuesta = "Usuario Desasociado";
 
                 return Ok(respuesta);
             }
@@ -87,14 +87,14 @@ namespace VeciHelp.Controllers
 
         [HttpGet]
         [Route("GetListaVecinoId")]
-        //metodo que retorna listado de vecinos asociados a un usuario
-        public IHttpActionResult GetListaVecinoId(int idUsuario)
+        //metodo que retorna listado de vecinos asociados a un usuario  **Listo
+        public IHttpActionResult GetListaVecinoId(int id)
         {
             var usrLst = new List<Usuario>();
 
             Administrador adm = new Administrador();
 
-            usrLst = adm.M_AsociacionVecinosLst(idUsuario);
+            usrLst = adm.M_AsociacionVecinosLst(id);
 
             return Ok(usrLst);
         }

@@ -12,6 +12,7 @@ namespace VeciHelp.Controllers
     [RoutePrefix("api/v1/admin")]
     public class AdminController : ApiController
     {
+        [AllowAnonymous]
         [HttpPost]
         [Route("CrearAdmin")]
         //metodo para crear usuarios  **Listo
@@ -30,6 +31,7 @@ namespace VeciHelp.Controllers
                 return Ok(respuesta);
         }
 
+        
         [HttpPost]
         [Route("EnrolarUsr")]
         //metodo para enrolar usuarios     **Listo, pero el sp debe agregar automaticamente el id de organizacion

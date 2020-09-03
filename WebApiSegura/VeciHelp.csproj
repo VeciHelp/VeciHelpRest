@@ -114,6 +114,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Models\Administrador.cs" />
     <Compile Include="Models\Alerta.cs" />
     <Compile Include="Models\AsocRequest.cs" />

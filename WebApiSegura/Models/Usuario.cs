@@ -35,25 +35,25 @@ namespace WebApiSegura.Models
         }
 
 
-        private Usuario M_UsuarioGet()
+        public Usuario M_UsuarioGet()
         {
             bd = new BaseDatos();
             return bd.p_UsuarioGet(this.id_Usuario);
         }
 
-        private bool M_UsuarioIns()
+        public bool M_UsuarioIns()
         {
             bd = new BaseDatos();
             return bd.p_UsuarioIns(this.correo, this.codigoVerificacion, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, this.clave);
         }
 
-        private bool M_UsuarioUpd()
+        public bool M_UsuarioUpd()
         {
             bd = new BaseDatos();
             return bd.p_UsuarioUpd(this.id_Usuario, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, this.clave);
         }
 
-        private bool M_FotoUsuarioUpd()
+        public bool M_FotoUsuarioUpd()
         {
             bd = new BaseDatos();
             return bd.p_FotoUsuarioUpd(this.id_TipoUsuario, this.foto);

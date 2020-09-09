@@ -8,7 +8,7 @@ using WebApiSegura.Models;
 
 namespace WebApiSegura.Controllers
 {
-    [Authorize(Roles = "Usuario")]
+    [Authorize(Roles = "Administrador,Usuario")]
     [RoutePrefix("api/v1/user")]
     public class UsuarioController : ApiController
     {

@@ -17,13 +17,13 @@ namespace VeciHelp.Controllers
        
         [HttpPost]
         [Route("authenticate")]
-        public IHttpActionResult Authenticate(LoginRequest login)
+        public IHttpActionResult Authenticate(RequestLogin login)
         {
             if (login == null)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
             //instancio la clase loginrequest para llamar a metodo que valida el usuario
-            LoginRequest lgn = new LoginRequest();
+            RequestLogin lgn = new RequestLogin();
             string rolUser = string.Empty;
 
             if (lgn.Validarlogin(login, out rolUser)==1)

@@ -16,7 +16,7 @@ namespace WebApiSegura.Models
         public string apellido { get; set; }
         public string rut { get; set; }
         public char digito { get; set; }
-        public string foto { get; set; }
+        public byte[] Foto { get; set; }
         public string antecedentesSalud { get; set; }
         public DateTime fechaNacimiento { get; set; }
         public int celular { get; set; }
@@ -35,10 +35,10 @@ namespace WebApiSegura.Models
         }
 
 
-        public Usuario M_UsuarioGet()
+        public Usuario M_UsuarioGet(int id_user)
         {
             bd = new BaseDatos();
-            return bd.p_UsuarioGet(this.id_Usuario);
+            return bd.p_UsuarioGet(id_user);
         }
 
         public bool M_UsuarioIns()
@@ -53,10 +53,10 @@ namespace WebApiSegura.Models
             return bd.p_UsuarioUpd(this.id_Usuario, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, this.clave);
         }
 
-        public bool M_FotoUsuarioUpd()
+        public bool M_FotoUsuarioUpd(int idTipoUsuario,byte[] foto)
         {
             bd = new BaseDatos();
-            return bd.p_FotoUsuarioUpd(this.id_TipoUsuario, this.foto);
+            return bd.p_FotoUsuarioUpd(idTipoUsuario, foto);
         }
     }
 }

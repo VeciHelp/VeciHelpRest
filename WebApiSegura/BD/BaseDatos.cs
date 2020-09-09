@@ -459,7 +459,7 @@ namespace VeciHelp.BD
         }
         
         //metodo con el cual el usuario actualiza su foto de perfil
-        public bool p_FotoUsuarioUpd(int idUsuario, string foto)
+        public bool p_FotoUsuarioUpd(int idUsuario, byte[] foto)
         {
             String _sql = string.Format("p_FotoUsuarioUpd");
             try
@@ -470,7 +470,7 @@ namespace VeciHelp.BD
                     sqlComm.CommandType = CommandType.StoredProcedure;
     
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Foto", SqlDbType.VarBinary, 500);
+                    sqlComm.Parameters.Add("@Foto", SqlDbType.VarBinary, 2147483647);
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = foto;

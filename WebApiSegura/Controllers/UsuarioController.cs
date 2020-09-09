@@ -71,7 +71,7 @@ namespace WebApiSegura.Controllers
         [HttpPut]
         [Route("UpdatePhoto")]
         //metodo para actualizar foto de perfil
-        public IHttpActionResult UpdatePhoto(FotoUpdRequest fotoUpd)
+        public IHttpActionResult UpdatePhoto(RequestFotoUpd fotoUpd)
         {
             Usuario usr = new Usuario();
             var respuesta = "error";

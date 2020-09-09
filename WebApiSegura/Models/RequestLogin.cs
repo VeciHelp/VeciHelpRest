@@ -3,12 +3,12 @@ using VeciHelp.BD;
 
 namespace VeciHelp.Models
 {
-    public class LoginRequest
+    public class RequestLogin
     {
         public string correo { get; set; }
         public string clave { get; set; }
 
-        public int Validarlogin(LoginRequest login,out string rolUser)
+        public int Validarlogin(RequestLogin login,out string rolUser)
         {
             BaseDatos bd = new BaseDatos();
             int retorna = 0;

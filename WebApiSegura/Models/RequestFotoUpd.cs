@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApiSegura.Models
 {
-    public class FotoUpdRequest
+    public class RequestFotoUpd
     {
         public int id_TipoUsuario { get; set; }
         public byte[] Foto { get; set; }

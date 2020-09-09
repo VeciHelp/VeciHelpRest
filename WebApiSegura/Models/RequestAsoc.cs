@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApiSegura.Models
 {
-    public class AsocRequest
+    public class RequestAsoc
     {
         public int idUsuario { get; set; }
 

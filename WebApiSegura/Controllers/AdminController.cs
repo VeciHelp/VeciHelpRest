@@ -34,7 +34,7 @@ namespace VeciHelp.Controllers
         
         [HttpPost]
         [Route("EnrolarUsr")]
-        //metodo para enrolar usuarios     **Listo, pero el sp debe agregar automaticamente el id de organizacion
+        //metodo para enrolar usuarios     **Listo
         public IHttpActionResult EnrolarUsr(Administrador admin)
         {
             var respuesta = "error";
@@ -53,7 +53,7 @@ namespace VeciHelp.Controllers
         [HttpPost]
         [Route("InsAsocVecino")]
         //metodo que crea asociaciones de vecinos   **Listo
-        public IHttpActionResult InsAsocVecino(AsocRequest asoc)
+        public IHttpActionResult InsAsocVecino(RequestAsoc asoc)
         {
             Administrador adminis = new Administrador();
             var respuesta = "error";
@@ -71,7 +71,7 @@ namespace VeciHelp.Controllers
         [HttpDelete]
         [Route("DelAsocVecino")]
         //metodo que elimina asociaciones **Listo
-        public IHttpActionResult DelAsocVecino(AsocRequest asoc)
+        public IHttpActionResult DelAsocVecino(RequestAsoc asoc)
         {
             Administrador adminis = new Administrador();
             var respuesta = "error";

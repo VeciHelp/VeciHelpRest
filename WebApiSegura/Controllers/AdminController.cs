@@ -21,10 +21,8 @@ namespace VeciHelp.Controllers
 
             var respuesta = "error";
 
-            if (adminis.M_UsuarioAdministradorIns())
+            if (adminis.M_UsuarioAdministradorIns(out respuesta))
             {
-                respuesta = "usuario Creado Correctamente";
-
                 return Ok(respuesta);
             }
             else
@@ -39,10 +37,8 @@ namespace VeciHelp.Controllers
         {
             var respuesta = "error";
 
-            if (admin.M_CodigoVerificacionUsuarioGenera(admin.Correo,admin.IdUsuarioCreador))
+            if (admin.M_CodigoVerificacionUsuarioGenera(admin.Correo,admin.IdUsuarioCreador, out respuesta))
             {
-                respuesta = "usuario Enrolado Correctamente";
-
                 return Ok(respuesta);
             }
             else
@@ -58,10 +54,8 @@ namespace VeciHelp.Controllers
             Administrador adminis = new Administrador();
             var respuesta = "error";
 
-            if (adminis.M_AsociacionVecinoIns(asoc.idUsuario, asoc.idVecino, asoc.idAdmin))
+            if (adminis.M_AsociacionVecinoIns(asoc.idUsuario, asoc.idVecino, asoc.idAdmin, out respuesta))
             {
-                respuesta = "usuario Asociado Correctamente";
-
                 return Ok(respuesta);
             }
             else
@@ -76,10 +70,8 @@ namespace VeciHelp.Controllers
             Administrador adminis = new Administrador();
             var respuesta = "error";
 
-            if (adminis.M_AsociacionVecinoDel(asoc.idUsuario, asoc.idVecino, asoc.idAdmin))
+            if (adminis.M_AsociacionVecinoDel(asoc.idUsuario, asoc.idVecino, asoc.idAdmin, out respuesta))
             {
-                respuesta = "Usuario Desasociado";
-
                 return Ok(respuesta);
             }
             else
@@ -100,7 +92,6 @@ namespace VeciHelp.Controllers
 
             return Ok(usrLst);
         }
-        
 
     }
 }

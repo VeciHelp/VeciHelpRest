@@ -21,10 +21,8 @@ namespace WebApiSegura.Controllers
 
             var respuesta = "error";
 
-            if (usuario.M_UsuarioIns())
+            if (usuario.M_UsuarioIns(out respuesta))
             {
-                respuesta = "usuario Creado Correctamente";
-
                 return Ok(respuesta);
             }
             else
@@ -58,10 +56,8 @@ namespace WebApiSegura.Controllers
 
             var respuesta = "error";
 
-            if (usuario.M_UsuarioUpd())
+            if (usuario.M_UsuarioUpd(out respuesta))
             {
-                respuesta = "usuario Modificado Correctamente";
-
                 return Ok(respuesta);
             }
             else
@@ -76,10 +72,8 @@ namespace WebApiSegura.Controllers
             Usuario usr = new Usuario();
             var respuesta = "error";
 
-            if (usr.M_FotoUsuarioUpd(fotoUpd.id_TipoUsuario,fotoUpd.Foto))
+            if (usr.M_FotoUsuarioUpd(fotoUpd.id_TipoUsuario,fotoUpd.Foto, out respuesta))
             {
-                respuesta = "Foto Modificada Correctamente";
-
                 return Ok(respuesta);
             }
             else

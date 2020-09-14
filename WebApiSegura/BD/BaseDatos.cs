@@ -126,8 +126,9 @@ namespace VeciHelp.BD
         #region Administrador
 
         //metodo para que el administrador se registre, esto debe hacerse posterior a ser enrolado
-        public bool p_UsuarioAdministradorIns(string correo, string codigoVerificacion,string nombre,string apellido,string rut,char digito,string antecedentesSalud,DateTime fechaNacimiento, int celular,string direccion,string clave)
+        public bool p_UsuarioAdministradorIns(string correo, string codigoVerificacion,string nombre,string apellido,string rut,char digito,string antecedentesSalud,DateTime fechaNacimiento, int celular,string direccion,string clave, out string mensaje)
         {
+            mensaje = string.Empty;
             String _sql = string.Format("p_UsuarioAdministradorIns");
             try
             {
@@ -147,6 +148,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
                     sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
 
 
                     sqlComm.Parameters[0].Value = correo;
@@ -162,6 +164,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters[10].Value = clave;
 
                     sqlComm.ExecuteNonQuery();
+                    mensaje = sqlComm.Parameters[11].Value.ToString();
 
                     this.Close();
                     return true;
@@ -177,8 +180,9 @@ namespace VeciHelp.BD
         }
         
         //metodo con el que el administrador enrola a los usuarios(internamente se envia un correo con un codigo de verificacion)
-        public bool p_CodigoVerificacionUsuarioGenera(string correo, int idUsuarioCreador)
+        public bool p_CodigoVerificacionUsuarioGenera(string correo, int idUsuarioCreador, out string mensaje)
         {
+            mensaje = string.Empty;
             String _sql = string.Format("p_CodigoVerificacionUsuarioGenera");
             try
             {
@@ -189,11 +193,13 @@ namespace VeciHelp.BD
 
                     sqlComm.Parameters.Add("@Correo", SqlDbType.VarChar, 100);
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
-                  
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+
                     sqlComm.Parameters[0].Value = correo;
                     sqlComm.Parameters[1].Value = idUsuarioCreador;
 
                     sqlComm.ExecuteNonQuery();
+                    mensaje = sqlComm.Parameters[2].Value.ToString();
 
                     this.Close();
                     return true;
@@ -209,8 +215,9 @@ namespace VeciHelp.BD
         }
 
         //metodo con el cual el administrador asocia los usuarios con los vecinos cercanos
-        public bool p_AsociacionVecinoIns(int idUsuario,int idVecino,int idAdmin)
+        public bool p_AsociacionVecinoIns(int idUsuario,int idVecino,int idAdmin, out string mensaje)
         {
+            mensaje = string.Empty;
             String _sql = string.Format("p_AsociacionVecinoIns");
             try
             {
@@ -222,12 +229,15 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Administrador", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = idVecino;
                     sqlComm.Parameters[2].Value = idAdmin;
 
                     sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[3].Value.ToString();
 
                     this.Close();
                     return true;
@@ -243,8 +253,9 @@ namespace VeciHelp.BD
         }
 
         //metodo con el cual el administrador elimina una asociaciond e vecino cercano de un usuario especifico
-        public bool p_AsociacionVecinoDel(int idUsuario, int idVecino, int idAdmin)
+        public bool p_AsociacionVecinoDel(int idUsuario, int idVecino, int idAdmin, out string mensaje)
         {
+            mensaje = string.Empty;
             String _sql = string.Format("p_AsociacionVecinoDel");
             try
             {
@@ -256,6 +267,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Administrador", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = idVecino;
@@ -263,6 +275,7 @@ namespace VeciHelp.BD
 
                     sqlComm.ExecuteNonQuery();
 
+                    mensaje = sqlComm.Parameters[3].Value.ToString();
                     this.Close();
                     return true;
                 }
@@ -360,8 +373,9 @@ namespace VeciHelp.BD
         }
 
         //metodo para que el usuario se registre, esto debe hacerse posterior a ser enrolado por un administrador
-        public bool p_UsuarioIns(string correo, string codigoVerificacion, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, string clave)
+        public bool p_UsuarioIns(string correo, string codigoVerificacion, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, string clave, out string mensaje)
         {
+            mensaje = string.Empty;
             String _sql = string.Format("p_UsuarioIns");
             try
             {
@@ -381,6 +395,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
                     sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
 
 
                     sqlComm.Parameters[0].Value = correo;
@@ -396,6 +411,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters[10].Value = clave;
 
                     sqlComm.ExecuteNonQuery();
+                    mensaje = sqlComm.Parameters[11].Value.ToString();
 
                     this.Close();
                     return true;
@@ -411,8 +427,9 @@ namespace VeciHelp.BD
         }
         
         //Metodo con el cual un usuario puede actualizar sus datos personales
-        public bool p_UsuarioUpd(int idUsuario, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, string clave)
+        public bool p_UsuarioUpd(int idUsuario, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, string clave, out string mensaje)
         {
+            mensaje = string.Empty;
             String _sql = string.Format("p_UsuarioUpd");
             try
             {
@@ -431,6 +448,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
                     sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = nombre;
@@ -444,6 +462,8 @@ namespace VeciHelp.BD
                     sqlComm.Parameters[9].Value = clave;
 
                     sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[10].Value.ToString();
 
                     this.Close();
                     return true;
@@ -459,8 +479,9 @@ namespace VeciHelp.BD
         }
         
         //metodo con el cual el usuario actualiza su foto de perfil
-        public bool p_FotoUsuarioUpd(int idUsuario, byte[] foto)
+        public bool p_FotoUsuarioUpd(int idUsuario, byte[] foto, out string mensaje)
         {
+            mensaje = string.Empty;
             String _sql = string.Format("p_FotoUsuarioUpd");
             try
             {
@@ -471,11 +492,13 @@ namespace VeciHelp.BD
     
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Foto", SqlDbType.VarBinary, 2147483647);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = foto;
 
                     sqlComm.ExecuteNonQuery();
+                    mensaje = sqlComm.Parameters[2].Value.ToString();
 
                     this.Close();
                     return true;
@@ -492,6 +515,8 @@ namespace VeciHelp.BD
         #endregion
 
         #region Alertas
+         
+        //metodo que inserta una alerta por sospecha , tanto en casa propia como en casa vecino
         public bool P_AlertaSospechaIns(int idUsuario,string coordenadas,string texto, out string mensaje)
         {
             mensaje = string.Empty;
@@ -529,6 +554,7 @@ namespace VeciHelp.BD
             }
         }
 
+        //metodo que inserta una alerta por SOS , tanto en casa propia como en casa vecino
         public bool P_AlertaSOSIns(int idUsuario,int idVecino, out string mensaje)
         {
             mensaje = string.Empty;
@@ -564,6 +590,7 @@ namespace VeciHelp.BD
             }
         }
 
+        //metodo que inserta una alerta por Emergencia , tanto en casa propia como en casa vecino
         public bool P_AlertaEmergenciaIns(int idUsuario, int idVecino, out string mensaje)
         {
             mensaje = string.Empty;
@@ -599,6 +626,7 @@ namespace VeciHelp.BD
             }
         }
 
+        //metodo que inserta la participacion de un usuario en una alerta 
         public bool P_AcudirLlamadoIns(int idUsuario, int idAlerta, out string mensaje)
         {
             mensaje = string.Empty;
@@ -634,6 +662,7 @@ namespace VeciHelp.BD
             }
         }
 
+        //metodo que lista las alertas activas en curso
         public List<Alerta> P_AlertaLst()
         {
             List<Alerta> alertLst = new List<Alerta>();

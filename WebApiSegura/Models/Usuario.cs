@@ -41,22 +41,22 @@ namespace WebApiSegura.Models
             return bd.p_UsuarioGet(id_user);
         }
 
-        public bool M_UsuarioIns()
+        public bool M_UsuarioIns(out string mensaje)
         {
             bd = new BaseDatos();
-            return bd.p_UsuarioIns(this.correo, this.codigoVerificacion, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, this.clave);
+            return bd.p_UsuarioIns(this.correo, this.codigoVerificacion, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, this.clave, out  mensaje);
         }
 
-        public bool M_UsuarioUpd()
+        public bool M_UsuarioUpd(out string mensaje)
         {
             bd = new BaseDatos();
-            return bd.p_UsuarioUpd(this.id_Usuario, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, this.clave);
+            return bd.p_UsuarioUpd(this.id_Usuario, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, this.clave, out  mensaje);
         }
 
-        public bool M_FotoUsuarioUpd(int idTipoUsuario,byte[] foto)
+        public bool M_FotoUsuarioUpd(int idTipoUsuario,byte[] foto, out string mensaje)
         {
             bd = new BaseDatos();
-            return bd.p_FotoUsuarioUpd(idTipoUsuario, foto);
+            return bd.p_FotoUsuarioUpd(idTipoUsuario, foto, out  mensaje);
         }
     }
 }

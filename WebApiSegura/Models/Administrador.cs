@@ -32,43 +32,37 @@ namespace VeciHelp.Models
 
         }
 
-        public Administrador(string correo,int idUsuarioCreador)
-        {
-            this.Correo = correo;
-            this.IdUsuarioCreador = idUsuarioCreador;
-        }
-
-        public bool M_UsuarioAdministradorIns()
+        public bool M_UsuarioAdministradorIns(out string mensaje)
         {
             bd = new BaseDatos();
 
-            if (bd.p_UsuarioAdministradorIns(this.Correo,this.CodigoVerificacion,this.Nombre,this.Apellido,this.Rut,this.Digito,this.AntecedentesSalud,this.FechaNacimiento,this.Celular,this.Direccion,this.Clave))
+            if (bd.p_UsuarioAdministradorIns(this.Correo,this.CodigoVerificacion,this.Nombre,this.Apellido,this.Rut,this.Digito,this.AntecedentesSalud,this.FechaNacimiento,this.Celular,this.Direccion,this.Clave,out mensaje))
             {
                 return true;
             }
             return false;
         }
 
-        public bool M_CodigoVerificacionUsuarioGenera(string correo, int idUsuarioCreador)
+        public bool M_CodigoVerificacionUsuarioGenera(string correo, int idUsuarioCreador,out string mensaje)
         {
             bd = new BaseDatos();
 
-            return bd.p_CodigoVerificacionUsuarioGenera(correo, idUsuarioCreador);
+            return bd.p_CodigoVerificacionUsuarioGenera(correo, idUsuarioCreador, out  mensaje);
         }
 
-        public bool M_AsociacionVecinoIns(int idUsuario, int idVecino, int idAdmin)
+        public bool M_AsociacionVecinoIns(int idUsuario, int idVecino, int idAdmin, out string mensaje)
         {
             bd = new BaseDatos();
 
-            return bd.p_AsociacionVecinoIns(idUsuario, idVecino, idAdmin);
+            return bd.p_AsociacionVecinoIns(idUsuario, idVecino, idAdmin, out  mensaje);
         }
 
 
-        public bool M_AsociacionVecinoDel(int idUsuario, int idVecino, int idAdmin)
+        public bool M_AsociacionVecinoDel(int idUsuario, int idVecino, int idAdmin, out string mensaje)
         {
             bd = new BaseDatos();
 
-            return bd.p_AsociacionVecinoDel(idUsuario, idVecino, idAdmin);
+            return bd.p_AsociacionVecinoDel(idUsuario, idVecino, idAdmin, out  mensaje);
         }
 
         public List<Usuario> M_AsociacionVecinosLst(int idUsuario)

@@ -86,11 +86,20 @@ namespace VeciHelp.BD
         #region Login
 
         //metodo que valida si el correo y contraseña son correctos y retorna el tipo de usuario
-        public void P_Login(string correo, string clave, out int retorna,out string rolename)
+        public ResponseLogin P_Login(string correo, string clave)
         {
-            retorna = 0;
-            rolename = string.Empty;
-                        String _sql = string.Format("P_Login");
+            ResponseLogin response = new ResponseLogin();
+
+            //creamos variables sueltas para poder recibirlas por out
+            int existe = 0;
+            string nombre = string.Empty;
+            string apellido = string.Empty;
+            int idUsuario = 0;
+            string roleName = string.Empty;
+            string mensaje = string.Empty;
+
+
+            String _sql = string.Format("P_Login");
             try
             {
                 if (this.Open())
@@ -100,8 +109,12 @@ namespace VeciHelp.BD
 
                     sqlComm.Parameters.Add("@correo", SqlDbType.VarChar, 100);
                     sqlComm.Parameters.Add("@clave", SqlDbType.VarChar, 200);
-                    sqlComm.Parameters.Add("@Retorna", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    sqlComm.Parameters.Add("@Tipo", SqlDbType.VarChar,100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Existe", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Nombre ", SqlDbType.VarChar,100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Apellido ", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Id_Usuario ", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@RoleName", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Mensaje ", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
 
                     sqlComm.Parameters[0].Value = correo;
@@ -109,8 +122,21 @@ namespace VeciHelp.BD
 
                     sqlComm.ExecuteNonQuery();
 
-                    int.TryParse(sqlComm.Parameters[2].Value.ToString(), out retorna);
-                    rolename=sqlComm.Parameters[3].Value.ToString();
+                    int.TryParse(sqlComm.Parameters[2].Value.ToString(), out existe);
+                    nombre = sqlComm.Parameters[3].Value.ToString();
+                    apellido = sqlComm.Parameters[4].Value.ToString();
+                    int.TryParse(sqlComm.Parameters[5].Value.ToString(), out idUsuario);
+                    roleName = sqlComm.Parameters[6].Value.ToString();
+                    mensaje = sqlComm.Parameters[7].Value.ToString();
+
+
+                    //asignamos las variables al objeto response para devolverlo al metodo
+                    response.existe = existe;
+                    response.nombre = nombre;
+                    response.apellido = apellido;
+                    response.id_Usuario = idUsuario;
+                    response.roleName = roleName;
+                    response.mensaje = mensaje;
 
                     this.Close();
                 }
@@ -120,6 +146,8 @@ namespace VeciHelp.BD
                 //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
                 this.Close();
             }
+            //devuelvo el objeto response ya lleno
+            return response;
         }
         #endregion
 

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Web.Http;
 using VeciHelp.Models;
 using VeciHelp.Security;
+using WebApiSegura.Models;
 
 namespace VeciHelp.Controllers
 {
@@ -24,12 +25,14 @@ namespace VeciHelp.Controllers
 
             //instancio la clase loginrequest para llamar a metodo que valida el usuario
             RequestLogin lgn = new RequestLogin();
-            string rolUser = string.Empty;
+            ResponseLogin response = new ResponseLogin();
 
-            if (lgn.Validarlogin(login, out rolUser)==1)
+            response = lgn.Validarlogin(login);
+
+            if (response!=null)
             {
-                    var token = TokenGenerator.GenerateTokenJwt(login.correo, rolUser);
-                    return Ok(token);
+                    response.token = TokenGenerator.GenerateTokenJwt(login.correo, response.roleName);
+                    return Ok(response);
             }     
             // Acceso denegado
             return Unauthorized();

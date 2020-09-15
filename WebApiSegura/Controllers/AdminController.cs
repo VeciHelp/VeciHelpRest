@@ -78,20 +78,5 @@ namespace VeciHelp.Controllers
                 return Ok(respuesta);
         }
 
-
-        [HttpGet]
-        [Route("GetListaVecinoId")]
-        //metodo que retorna listado de vecinos asociados a un usuario  **Listo
-        public IHttpActionResult GetListaVecinoId(int id)
-        {
-            var usrLst = new List<Usuario>();
-
-            Administrador adm = new Administrador();
-
-            usrLst = adm.M_AsociacionVecinosLst(id);
-
-            return Ok(usrLst);
-        }
-
     }
 }

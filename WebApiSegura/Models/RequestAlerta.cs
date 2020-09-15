@@ -7,7 +7,7 @@ namespace WebApiSegura.Models
 {
     public class RequestAlerta
     {
-        public int idUsuaro { get; set; }
+        public int idUsuario { get; set; }
         public int idVecino { get; set; }
         public int idAlerta { get; set; }
         public string coordenadas { get; set; }

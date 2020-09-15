@@ -58,5 +58,12 @@ namespace WebApiSegura.Models
             bd = new BaseDatos();
             return bd.p_FotoUsuarioUpd(idTipoUsuario, foto, out  mensaje);
         }
+
+        public List<Usuario> M_AsociacionVecinosLst(int idUsuario)
+        {
+            bd = new BaseDatos();
+
+            return bd.p_AsociacionVecinosLst(idUsuario);
+        }
     }
 }

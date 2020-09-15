@@ -65,12 +65,7 @@ namespace VeciHelp.Models
             return bd.p_AsociacionVecinoDel(idUsuario, idVecino, idAdmin, out  mensaje);
         }
 
-        public List<Usuario> M_AsociacionVecinosLst(int idUsuario)
-        {
-            bd = new BaseDatos();
- 
-            return  bd.p_AsociacionVecinosLst(idUsuario);
-        }
+        
 
 
     }

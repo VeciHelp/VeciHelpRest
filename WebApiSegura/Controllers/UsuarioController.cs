@@ -80,6 +80,20 @@ namespace WebApiSegura.Controllers
                 return Ok(respuesta);
         }
 
+        [HttpGet]
+        [Route("GetListaVecinoId")]
+        //metodo que retorna listado de vecinos asociados a un usuario  **Listo
+        public IHttpActionResult GetListaVecinoId(int id)
+        {
+            var usrLst = new List<Usuario>();
+
+            Usuario usr = new Usuario();
+
+            usrLst = usr.M_AsociacionVecinosLst(id);
+
+            return Ok(usrLst);
+        }
+
 
     }
 }

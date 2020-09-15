@@ -24,7 +24,7 @@ namespace WebApiSegura.Controllers
             Alerta alert = new Alerta();
             var respuesta = string.Empty;
 
-            if (alert.M_AlertaSospechaIns(alerta.idUsuaro,alerta.coordenadas,alerta.texto,out respuesta))
+            if (alert.M_AlertaSospechaIns(alerta.idUsuario,alerta.coordenadas,alerta.texto,out respuesta))
             {
                 return Ok(respuesta);
             }
@@ -40,7 +40,7 @@ namespace WebApiSegura.Controllers
             Alerta alert = new Alerta();
             var respuesta = string.Empty;
 
-            if (alert.M_AlertaSOSIns(alerta.idUsuaro,alerta.idVecino, out respuesta))
+            if (alert.M_AlertaSOSIns(alerta.idUsuario,alerta.idVecino, out respuesta))
             {
                 return Ok(respuesta);
             }
@@ -56,7 +56,7 @@ namespace WebApiSegura.Controllers
             Alerta alert = new Alerta();
             var respuesta = string.Empty;
 
-            if (alert.M_AlertaEmergenciaIns(alerta.idUsuaro, alerta.idVecino, out respuesta))
+            if (alert.M_AlertaEmergenciaIns(alerta.idUsuario, alerta.idVecino, out respuesta))
             {
                 return Ok(respuesta);
             }
@@ -72,7 +72,7 @@ namespace WebApiSegura.Controllers
             Alerta alert = new Alerta();
             var respuesta = string.Empty;
 
-            if (alert.M_AcudirLlamadoIns(alerta.idUsuaro, alerta.idAlerta, out respuesta))
+            if (alert.M_AcudirLlamadoIns(alerta.idUsuario, alerta.idAlerta, out respuesta))
             {
                 return Ok(respuesta);
             }
@@ -81,9 +81,9 @@ namespace WebApiSegura.Controllers
         }
 
         [HttpGet]
-        [Route("Alertas")]
+        [Route("GetAll")]
         //metodo que lista las alertas activas
-        public IHttpActionResult Alertas()
+        public IHttpActionResult GetAll()
         {
             Alerta alert = new Alerta();
             var respuesta = "Error";

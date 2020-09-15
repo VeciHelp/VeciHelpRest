@@ -176,7 +176,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
                     sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
 
                     sqlComm.Parameters[0].Value = correo;
@@ -221,7 +221,7 @@ namespace VeciHelp.BD
 
                     sqlComm.Parameters.Add("@Correo", SqlDbType.VarChar, 100);
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = correo;
                     sqlComm.Parameters[1].Value = idUsuarioCreador;
@@ -257,7 +257,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Administrador", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = idVecino;
@@ -295,7 +295,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Administrador", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = idVecino;
@@ -423,7 +423,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
                     sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
 
                     sqlComm.Parameters[0].Value = correo;
@@ -476,7 +476,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
                     sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = nombre;
@@ -520,7 +520,7 @@ namespace VeciHelp.BD
     
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Foto", SqlDbType.VarBinary, 2147483647);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = foto;
@@ -559,7 +559,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@CoordenadaSospechosa", SqlDbType.VarChar, 100);
                     sqlComm.Parameters.Add("@TextoSospecha", SqlDbType.VarChar, 500);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = coordenadas;
@@ -596,7 +596,7 @@ namespace VeciHelp.BD
 
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = idVecino;
@@ -632,7 +632,7 @@ namespace VeciHelp.BD
 
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = idVecino;
@@ -668,7 +668,7 @@ namespace VeciHelp.BD
 
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Alerta", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = idAlerta;

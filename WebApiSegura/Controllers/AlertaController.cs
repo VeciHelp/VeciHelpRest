@@ -97,6 +97,22 @@ namespace WebApiSegura.Controllers
                 return Ok(respuesta);
         }
 
+        [HttpGet]
+        [Route("Get")]
+        //metodo que lista una alerta por id
+        public IHttpActionResult Get(int Id)
+        {
+            Alerta alert = new Alerta();
+            var respuesta = "Error";
+
+            if (alert.M_Alerta(Id) != null)
+            {
+
+                return Ok(alert.M_Alerta(Id));
+            }
+            else
+                return Ok(respuesta);
+        }
 
     }
 }

@@ -20,6 +20,7 @@ namespace WebApiSegura.Models
         public string textoSospecha { get; set; }
         public string direccion { get; set; }
         public string organizacion { get; set; }
+        public int participantes { get; set; }
 
         private BaseDatos bd;
 
@@ -64,6 +65,13 @@ namespace WebApiSegura.Models
             bd = new BaseDatos();
             return bd.P_AlertaLst();
         }
+
+        public Alerta M_Alerta(int idAlerta)
+        {
+            bd = new BaseDatos();
+            return bd.P_Alerta(idAlerta);
+        }
+
 
 
 

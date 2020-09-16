@@ -340,10 +340,11 @@ namespace VeciHelp.BD
                         while (dr.Read())
                         {
                             Usuario usr = new Usuario();
-                            usr.nombre = dr[0].ToString();
-                            usr.apellido = dr[1].ToString();
-                            usr.direccion = dr[2].ToString();
-                            usr.celular = int.Parse(dr[3].ToString());
+                            usr.id_Usuario= int.Parse(dr[0].ToString());
+                            usr.nombre = dr[1].ToString();
+                            usr.apellido = dr[2].ToString();
+                            usr.direccion = dr[3].ToString();
+                            usr.celular = int.Parse(dr[4].ToString());
                             usrLst.Add(usr);
                         }
 
@@ -723,7 +724,7 @@ namespace VeciHelp.BD
                             alert.textoSospecha = dr[9].ToString();
                             alert.direccion = dr[10].ToString();
                             alert.organizacion = dr[11].ToString();
-
+                            alert.participantes = Int32.Parse(dr[18].ToString());
                             alertLst.Add(alert);
                         }
                     }
@@ -737,6 +738,56 @@ namespace VeciHelp.BD
             }
             return alertLst;
         }
+
+        public Alerta P_Alerta(int idAlerta)
+        {
+            Alerta alert = new Alerta();
+
+            String _sql = string.Format("p_AlertaLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Alerta", SqlDbType.Int);
+                    sqlComm.Parameters[0].Value = idAlerta;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            
+
+                            alert.idAlerta = int.Parse(dr[0].ToString());
+                            alert.fechaAlerta = DateTime.Parse(dr[1].ToString());
+                            alert.horaAlerta = DateTime.Parse(dr[2].ToString());
+                            alert.TipoAlerta = dr[3].ToString();
+                            alert.nombreGenerador = dr[4].ToString();
+                            alert.apellidoGenerador = dr[5].ToString();
+                            alert.nombreAyuda = dr[6].ToString();
+                            alert.apellidoAyuda = dr[7].ToString();
+                            alert.coordenadaSospecha = dr[8].ToString();
+                            alert.textoSospecha = dr[9].ToString();
+                            alert.direccion = dr[10].ToString();
+                            alert.organizacion = dr[11].ToString();
+                            alert.participantes = Int32.Parse(dr[18].ToString());
+                        }
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+            return alert;
+        }
+
         #endregion
     }
 }

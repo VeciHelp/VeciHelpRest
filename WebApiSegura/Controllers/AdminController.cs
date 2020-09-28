@@ -78,5 +78,19 @@ namespace VeciHelp.Controllers
                 return Ok(respuesta);
         }
 
+        [HttpGet]
+        [Route("GetListaVecinoByCorreo")]
+        //metodo que retorna listado de vecinos asociados a un usuario  **Listo
+        public IHttpActionResult GetListaVecinoId(string correo)
+        {
+            var usrLst = new List<Usuario>();
+
+            Administrador adm = new Administrador();
+
+            usrLst = adm.M_AsociacionVecinosByCorreoLst(correo);
+
+            return Ok(usrLst);
+        }
+
     }
 }

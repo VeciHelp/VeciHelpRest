@@ -65,5 +65,7 @@ namespace WebApiSegura.Models
 
             return bd.p_AsociacionVecinosLst(idUsuario);
         }
+
+        
     }
 }

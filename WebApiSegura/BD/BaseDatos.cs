@@ -317,12 +317,12 @@ namespace VeciHelp.BD
             }
         }
 
-        //metodo que lista los vecinos cercanos de un usuario sirve tanto al administrador como a el usuario , para saber cuales son sus casas cercanas
-        public List<Usuario> p_AsociacionVecinosLst(int idUsuario)
+        //metodo que retora un usuario por correo
+        public List<Usuario> p_AsociacionVecinosByCorreoLst(string correo)
         {
             List<Usuario> usrLst = new List<Usuario>();
 
-            String _sql = string.Format("p_AsociacionVecinosLst");
+            String _sql = string.Format("p_AsociacionVecinosByCorreoLst");
             try
             {
                 if (this.Open())
@@ -330,8 +330,8 @@ namespace VeciHelp.BD
                     SqlCommand sqlComm = new SqlCommand(_sql, cnn);
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
-                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
-                    sqlComm.Parameters[0].Value = idUsuario;
+                    sqlComm.Parameters.Add("@Correo", SqlDbType.VarChar);
+                    sqlComm.Parameters[0].Value = correo;
 
                     SqlDataReader dr = sqlComm.ExecuteReader();
 
@@ -340,7 +340,7 @@ namespace VeciHelp.BD
                         while (dr.Read())
                         {
                             Usuario usr = new Usuario();
-                            usr.id_Usuario= int.Parse(dr[0].ToString());
+                            usr.id_Usuario = int.Parse(dr[0].ToString());
                             usr.nombre = dr[1].ToString();
                             usr.apellido = dr[2].ToString();
                             usr.direccion = dr[3].ToString();
@@ -363,6 +363,49 @@ namespace VeciHelp.BD
         #endregion
 
         #region Usuarios
+        //metodo que lista los vecinos cercanos de un usuario, para saber cuales son sus casas cercanas
+        public List<Usuario> p_AsociacionVecinosLst(int idUsuario)
+        {
+            List<Usuario> usrLst = new List<Usuario>();
+
+            String _sql = string.Format("p_AsociacionVecinosLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters[0].Value = idUsuario;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Usuario usr = new Usuario();
+                            usr.id_Usuario = int.Parse(dr[0].ToString());
+                            usr.nombre = dr[1].ToString();
+                            usr.apellido = dr[2].ToString();
+                            usr.direccion = dr[3].ToString();
+                            usr.celular = int.Parse(dr[4].ToString());
+                            usrLst.Add(usr);
+                        }
+
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+
+            return usrLst;
+        }
 
         //metodo que retorna los datos de un usuario en especifico por id
         public Usuario p_UsuarioGet(int idUsuario)

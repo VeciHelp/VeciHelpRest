@@ -360,6 +360,51 @@ namespace VeciHelp.BD
 
             return usrLst;
         }
+
+        //metodo que retora un usuario por correo
+        public List<Usuario> p_UsuariosLst(int idUsuario)
+        {
+            List<Usuario> usrLst = new List<Usuario>();
+
+            String _sql = string.Format("p_UsuariosLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters[0].Value = idUsuario;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Usuario usr = new Usuario();
+                            usr.id_Usuario = int.Parse(dr[0].ToString());
+                            usr.nombre = dr[1].ToString();
+                            usr.apellido = dr[2].ToString();
+                            usr.direccion = dr[3].ToString();
+                            usr.celular = int.Parse(dr[4].ToString());
+                            //falta asignar la foto
+                            usrLst.Add(usr);
+                        }
+
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+
+            return usrLst;
+        }
         #endregion
 
         #region Usuarios

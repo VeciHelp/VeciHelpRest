@@ -92,5 +92,26 @@ namespace VeciHelp.Controllers
             return Ok(usrLst);
         }
 
+        [HttpGet]
+        [Route("GetUsuarios")]
+        //metodo que retorna los datos de un usuario by id
+        public IHttpActionResult GetUsers(int idUsuario)
+        {
+            Usuario usr = new Usuario();
+            List<Usuario> usrLst = new List<Usuario>();
+
+
+            usrLst = usr.M_UsuariosLst(idUsuario);
+
+            if (usrLst.Count!=0)
+            {
+                return Ok(usrLst);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
     }
 }

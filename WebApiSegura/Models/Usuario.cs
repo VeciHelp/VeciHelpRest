@@ -41,6 +41,13 @@ namespace WebApiSegura.Models
             return bd.p_UsuarioGet(id_user);
         }
 
+        public List<Usuario> M_UsuariosLst(int idUsuario)
+        {
+            bd = new BaseDatos();
+
+            return bd.p_UsuariosLst(idUsuario);
+        }
+
         public bool M_UsuarioIns(out string mensaje)
         {
             bd = new BaseDatos();

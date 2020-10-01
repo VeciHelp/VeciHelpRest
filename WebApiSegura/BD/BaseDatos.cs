@@ -340,11 +340,11 @@ namespace VeciHelp.BD
                         while (dr.Read())
                         {
                             Usuario usr = new Usuario();
-                            usr.id_Usuario = int.Parse(dr[0].ToString());
-                            usr.nombre = dr[1].ToString();
-                            usr.apellido = dr[2].ToString();
-                            usr.direccion = dr[3].ToString();
-                            usr.celular = int.Parse(dr[4].ToString());
+                            usr.id_Usuario = int.Parse(dr[1].ToString());
+                            usr.nombre = dr[2].ToString();
+                            usr.apellido = dr[3].ToString();
+                            usr.direccion = dr[4].ToString();
+                            usr.celular = int.Parse(dr[5].ToString());
                             usrLst.Add(usr);
                         }
 

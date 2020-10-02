@@ -72,6 +72,12 @@ namespace VeciHelp.Models
             return bd.p_AsociacionVecinosByCorreoLst(correo);
         }
 
+        public bool M_DesactivaUsuarioUpd(int idUsuario, out string mensaje)
+        {
+            bd = new BaseDatos();
+
+            return bd.p_DesactivaUsuarioUpd(idUsuario, out mensaje);
+        }
 
 
 

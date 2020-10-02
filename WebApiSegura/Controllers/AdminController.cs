@@ -113,5 +113,21 @@ namespace VeciHelp.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("EliminarUsuario")]
+        //metodo que elimina (desactiva) usuarios
+        public IHttpActionResult EliminarUsuario(int idUsuario)
+        {
+            Administrador adminis = new Administrador();
+            var respuesta = "error";
+
+            if (adminis.M_DesactivaUsuarioUpd(idUsuario, out respuesta))
+            {
+                return Ok(respuesta);
+            }
+            else
+                return Ok(respuesta);
+        }
+
     }
 }

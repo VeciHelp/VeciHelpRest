@@ -361,7 +361,7 @@ namespace VeciHelp.BD
             return usrLst;
         }
 
-        //metodo que retora un usuario por correo
+        //metodo que retora un usuario por id
         public List<Usuario> p_UsuariosLst(int idUsuario)
         {
             List<Usuario> usrLst = new List<Usuario>();
@@ -404,6 +404,40 @@ namespace VeciHelp.BD
             }
 
             return usrLst;
+        }
+
+        //metodo que elimina un usuario
+        public bool p_DesactivaUsuarioUpd(int idUsuario,out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_DesactivaUsuarioUpd");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                    sqlComm.Parameters[0].Value = idUsuario;
+
+                    sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[1].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
         }
         #endregion
 

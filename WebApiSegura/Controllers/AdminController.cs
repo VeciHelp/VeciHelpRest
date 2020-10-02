@@ -62,7 +62,7 @@ namespace VeciHelp.Controllers
                 return Ok(respuesta);
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("DelAsocVecino")]
         //metodo que elimina asociaciones **Listo
         public IHttpActionResult DelAsocVecino(RequestAsoc asoc)

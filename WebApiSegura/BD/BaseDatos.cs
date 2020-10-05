@@ -476,6 +476,8 @@ namespace VeciHelp.BD
                             usr.numeroEmergencia = dr[13].ToString();
                         }
                     }
+                    else
+                        usr = null;
 
                     this.Close();
                 }
@@ -571,6 +573,8 @@ namespace VeciHelp.BD
                             usr.numeroEmergencia = dr[13].ToString();
                         }
                     }
+                    else
+                        usr = null;
 
                     this.Close();
                 }

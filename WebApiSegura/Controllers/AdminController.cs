@@ -113,6 +113,25 @@ namespace VeciHelp.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetUsuarioByCorreo")]
+        //metodo que retorna los datos de un usuario by id
+        public IHttpActionResult GetUsuarioByCorreo(string correo)
+        {
+            Administrador adm = new Administrador();
+
+            var usr = adm.M_UsuarioByCorreoGet(correo);
+
+            if (usr != null)
+            {
+                return Ok(usr);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpDelete]
         [Route("EliminarUsuario")]
         //metodo que elimina (desactiva) usuarios

@@ -32,11 +32,11 @@ namespace WebApiSegura.Controllers
         [HttpGet]
         [Route("GetUserId")]
         //metodo que retorna los datos de un usuario by id
-        public IHttpActionResult GetUserId(int id_user)
+        public IHttpActionResult GetUserId(int idUsuario)
         {
             Usuario usr = new Usuario();
 
-            usr = usr.M_UsuarioGet(id_user);
+            usr = usr.M_UsuarioGet(idUsuario);
 
             if (usr!=null)
             {

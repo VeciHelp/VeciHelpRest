@@ -26,6 +26,7 @@ namespace WebApiSegura.Models
         public int id_TipoUsuario { get; set; }
         public DateTime fechaRegistro { get; set; }
         public string nombreCreador { get; set; }
+        public string numeroEmergencia { get; set; }
 
         private BaseDatos bd;
 

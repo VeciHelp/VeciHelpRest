@@ -79,6 +79,13 @@ namespace VeciHelp.Models
             return bd.p_DesactivaUsuarioUpd(idUsuario, out mensaje);
         }
 
+        public Usuario M_UsuarioByCorreoGet(string correo)
+        {
+            bd = new BaseDatos();
+
+            return bd.p_UsuarioByCorreoGet(correo);
+        }
+        
 
 
 

@@ -439,6 +439,55 @@ namespace VeciHelp.BD
                 return false;
             }
         }
+
+        //metodo que retorna los datos de un usuario en especifico por correo
+        public Usuario p_UsuarioByCorreoGet(string  correo)
+        {
+            Usuario usr = new Usuario();
+
+            String _sql = string.Format("p_UsuarioByCorreoGet");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Correo", SqlDbType.VarChar,100);
+                    sqlComm.Parameters[0].Value = correo;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            usr.id_Usuario = int.Parse(dr[0].ToString());
+                            usr.correo = dr[1].ToString();
+                            usr.nombre = dr[2].ToString();
+                            usr.apellido = dr[3].ToString();
+                            usr.rut = dr[4].ToString();
+                            usr.digito = char.Parse(dr[5].ToString());
+                            usr.Foto = dr[6].ToString();
+                            usr.antecedentesSalud = dr[7].ToString();
+                            usr.fechaNacimiento = DateTime.Parse(dr[8].ToString());
+                            usr.celular = int.Parse(dr[9].ToString());
+                            usr.direccion = dr[10].ToString();
+                            usr.numeroEmergencia = dr[13].ToString();
+                        }
+                    }
+
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+
+            return usr;
+        }
         #endregion
 
         #region Usuarios
@@ -499,18 +548,30 @@ namespace VeciHelp.BD
                     SqlCommand sqlComm = new SqlCommand(_sql, cnn);
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
-                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.VarChar, 100);
                     sqlComm.Parameters[0].Value = idUsuario;
 
                     SqlDataReader dr = sqlComm.ExecuteReader();
 
                     if (dr.HasRows)
                     {
-                            usr.nombre = dr[0].ToString();
-                            usr.apellido = dr[1].ToString();
-                            usr.direccion = dr[2].ToString();
-                            usr.celular = int.Parse(dr[3].ToString());
+                        while (dr.Read())
+                        {
+                            usr.id_Usuario = int.Parse(dr[0].ToString());
+                            usr.correo = dr[1].ToString();
+                            usr.nombre = dr[2].ToString();
+                            usr.apellido = dr[3].ToString();
+                            usr.rut = dr[4].ToString();
+                            usr.digito = char.Parse(dr[5].ToString());
+                            usr.Foto = dr[6].ToString();
+                            usr.antecedentesSalud = dr[7].ToString();
+                            usr.fechaNacimiento = DateTime.Parse(dr[8].ToString());
+                            usr.celular = int.Parse(dr[9].ToString());
+                            usr.direccion = dr[10].ToString();
+                            usr.numeroEmergencia = dr[13].ToString();
+                        }
                     }
+
                     this.Close();
                 }
             }

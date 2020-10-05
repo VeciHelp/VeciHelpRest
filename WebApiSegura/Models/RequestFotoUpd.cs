@@ -8,6 +8,6 @@ namespace WebApiSegura.Models
     public class RequestFotoUpd
     {
         public int id_TipoUsuario { get; set; }
-        public byte[] Foto { get; set; }
+        public string Foto { get; set; }
     }
 }

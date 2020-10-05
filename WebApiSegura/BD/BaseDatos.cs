@@ -389,7 +389,7 @@ namespace VeciHelp.BD
                             usr.apellido = dr[2].ToString();
                             usr.direccion = dr[3].ToString();
                             usr.celular = int.Parse(dr[4].ToString());
-                            //falta asignar la foto
+                            usr.Foto = dr[5].ToString();
                             usrLst.Add(usr);
                         }
 
@@ -630,7 +630,7 @@ namespace VeciHelp.BD
         }
         
         //metodo con el cual el usuario actualiza su foto de perfil
-        public bool p_FotoUsuarioUpd(int idUsuario, byte[] foto, out string mensaje)
+        public bool p_FotoUsuarioUpd(int idUsuario, string foto, out string mensaje)
         {
             mensaje = string.Empty;
             String _sql = string.Format("p_FotoUsuarioUpd");
@@ -642,7 +642,7 @@ namespace VeciHelp.BD
                     sqlComm.CommandType = CommandType.StoredProcedure;
     
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Foto", SqlDbType.VarBinary, 2147483647);
+                    sqlComm.Parameters.Add("@Foto", SqlDbType.VarChar, 2147483647);
                     sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;

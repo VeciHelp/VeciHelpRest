@@ -121,7 +121,6 @@
     <Compile Include="Models\RequestAlerta.cs" />
     <Compile Include="Models\RequestAsoc.cs" />
     <Compile Include="Models\RequestFotoUpd.cs" />
-    <Compile Include="Models\ResponseLogin.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Security\TokenGenerator.cs" />
     <Compile Include="Security\TokenValidationHandler.cs" />

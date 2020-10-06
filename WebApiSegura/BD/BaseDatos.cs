@@ -123,23 +123,28 @@ namespace VeciHelp.BD
 
                     int.TryParse(sqlComm.Parameters[2].Value.ToString(), out int temp_Existe);
                     usr.existe = temp_Existe;
-                    int.TryParse(sqlComm.Parameters[3].Value.ToString(), out int temp_Id_Usuario);
-                    usr.id_Usuario = temp_Id_Usuario;
-                    usr.rolename=sqlComm.Parameters[4].Value.ToString();
-                    usr.correo=sqlComm.Parameters[5].Value.ToString();
-                    usr.apellido = sqlComm.Parameters[7].Value.ToString();
-                    usr.rut= sqlComm.Parameters[8].Value.ToString();
-                    usr.digito= Char.Parse(sqlComm.Parameters[9].Value.ToString());
-                    usr.Foto= sqlComm.Parameters[10].Value.ToString();
-                    usr.antecedentesSalud = sqlComm.Parameters[11].Value.ToString();
-                    usr.nombre = sqlComm.Parameters[6].Value.ToString();
-                    DateTime.TryParse(sqlComm.Parameters[12].Value.ToString(), out DateTime temp_fechaNac);
-                    usr.fechaNacimiento = temp_fechaNac;
-                    int.TryParse(sqlComm.Parameters[13].Value.ToString(), out int temp_Celular);
-                    usr.celular = temp_Celular;
-                    usr.direccion = sqlComm.Parameters[14].Value.ToString();
-                    usr.numeroEmergencia = sqlComm.Parameters[15].Value.ToString();
-                    usr.mensaje = sqlComm.Parameters[16].Value.ToString();
+                    if (usr.existe==1)
+                    {
+                        
+                        int.TryParse(sqlComm.Parameters[3].Value.ToString(), out int temp_Id_Usuario);
+                        usr.id_Usuario = temp_Id_Usuario;
+                        usr.rolename = sqlComm.Parameters[4].Value.ToString();
+                        usr.correo = sqlComm.Parameters[5].Value.ToString();
+                        usr.apellido = sqlComm.Parameters[7].Value.ToString();
+                        usr.rut = sqlComm.Parameters[8].Value.ToString();
+                        usr.digito = Char.Parse(sqlComm.Parameters[9].Value.ToString());
+                        usr.Foto = sqlComm.Parameters[10].Value.ToString();
+                        usr.antecedentesSalud = sqlComm.Parameters[11].Value.ToString();
+                        usr.nombre = sqlComm.Parameters[6].Value.ToString();
+                        DateTime.TryParse(sqlComm.Parameters[12].Value.ToString(), out DateTime temp_fechaNac);
+                        usr.fechaNacimiento = temp_fechaNac;
+                        int.TryParse(sqlComm.Parameters[13].Value.ToString(), out int temp_Celular);
+                        usr.celular = temp_Celular;
+                        usr.direccion = sqlComm.Parameters[14].Value.ToString();
+                        usr.numeroEmergencia = sqlComm.Parameters[15].Value.ToString();
+                        usr.mensaje = sqlComm.Parameters[16].Value.ToString();
+                    }
+                    
 
                     this.Close();
                 }

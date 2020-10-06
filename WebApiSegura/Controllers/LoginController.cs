@@ -33,7 +33,11 @@ namespace VeciHelp.Controllers
             {
                     usr.token = TokenGenerator.GenerateTokenJwt(login.correo, usr.rolename);
                     return Ok(usr);
-            }     
+            }
+            else if (usr.existe == 0)
+            {
+                return NotFound();
+            }
             // Acceso denegado
             return Unauthorized();
         }

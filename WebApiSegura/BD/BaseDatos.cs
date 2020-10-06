@@ -86,18 +86,9 @@ namespace VeciHelp.BD
         #region Login
 
         //metodo que valida si el correo y contraseña son correctos y retorna el tipo de usuario
-        public ResponseLogin P_Login(string correo, string clave)
+        public Usuario P_Login(string correo, string clave)
         {
-            ResponseLogin response = new ResponseLogin();
-
-            //creamos variables sueltas para poder recibirlas por out
-            int existe = 0;
-            string nombre = string.Empty;
-            string apellido = string.Empty;
-            int idUsuario = 0;
-            string roleName = string.Empty;
-            string mensaje = string.Empty;
-
+            Usuario usr = new Usuario();
 
             String _sql = string.Format("P_Login");
             try
@@ -110,33 +101,45 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@correo", SqlDbType.VarChar, 100);
                     sqlComm.Parameters.Add("@clave", SqlDbType.VarChar, 200);
                     sqlComm.Parameters.Add("@Existe", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    sqlComm.Parameters.Add("@Nombre ", SqlDbType.VarChar,100).Direction = ParameterDirection.Output;
-                    sqlComm.Parameters.Add("@Apellido ", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                     sqlComm.Parameters.Add("@Id_Usuario ", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    sqlComm.Parameters.Add("@RoleName", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@RoleName ", SqlDbType.VarChar,100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@CorreoOUT ", SqlDbType.VarChar,100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Nombre", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Apellido ", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Rut ", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Digito ", SqlDbType.VarChar, 1).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Foto ", SqlDbType.VarChar, 2147483647).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@AntecedentesSalud ", SqlDbType.VarChar, 2147483647).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@FechaNacimiento ", SqlDbType.Date).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Celular ", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Direccion ", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@NumeroEmergencia ", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                     sqlComm.Parameters.Add("@Mensaje ", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
-
-
+                    
                     sqlComm.Parameters[0].Value = correo;
                     sqlComm.Parameters[1].Value = clave;
 
                     sqlComm.ExecuteNonQuery();
 
-                    int.TryParse(sqlComm.Parameters[2].Value.ToString(), out existe);
-                    nombre = sqlComm.Parameters[3].Value.ToString();
-                    apellido = sqlComm.Parameters[4].Value.ToString();
-                    int.TryParse(sqlComm.Parameters[5].Value.ToString(), out idUsuario);
-                    roleName = sqlComm.Parameters[6].Value.ToString();
-                    mensaje = sqlComm.Parameters[7].Value.ToString();
-
-
-                    //asignamos las variables al objeto response para devolverlo al metodo
-                    response.existe = existe;
-                    response.nombre = nombre;
-                    response.apellido = apellido;
-                    response.id_Usuario = idUsuario;
-                    response.roleName = roleName;
-                    response.mensaje = mensaje;
+                    int.TryParse(sqlComm.Parameters[2].Value.ToString(), out int temp_Existe);
+                    usr.existe = temp_Existe;
+                    int.TryParse(sqlComm.Parameters[3].Value.ToString(), out int temp_Id_Usuario);
+                    usr.id_Usuario = temp_Id_Usuario;
+                    usr.rolename=sqlComm.Parameters[4].Value.ToString();
+                    usr.correo=sqlComm.Parameters[5].Value.ToString();
+                    usr.apellido = sqlComm.Parameters[7].Value.ToString();
+                    usr.rut= sqlComm.Parameters[8].Value.ToString();
+                    usr.digito= Char.Parse(sqlComm.Parameters[9].Value.ToString());
+                    usr.Foto= sqlComm.Parameters[10].Value.ToString();
+                    usr.antecedentesSalud = sqlComm.Parameters[11].Value.ToString();
+                    usr.nombre = sqlComm.Parameters[6].Value.ToString();
+                    DateTime.TryParse(sqlComm.Parameters[12].Value.ToString(), out DateTime temp_fechaNac);
+                    usr.fechaNacimiento = temp_fechaNac;
+                    int.TryParse(sqlComm.Parameters[13].Value.ToString(), out int temp_Celular);
+                    usr.celular = temp_Celular;
+                    usr.direccion = sqlComm.Parameters[14].Value.ToString();
+                    usr.numeroEmergencia = sqlComm.Parameters[15].Value.ToString();
+                    usr.mensaje = sqlComm.Parameters[16].Value.ToString();
 
                     this.Close();
                 }
@@ -147,7 +150,7 @@ namespace VeciHelp.BD
                 this.Close();
             }
             //devuelvo el objeto response ya lleno
-            return response;
+            return usr;
         }
         #endregion
 
@@ -570,7 +573,7 @@ namespace VeciHelp.BD
                             usr.fechaNacimiento = DateTime.Parse(dr[8].ToString());
                             usr.celular = int.Parse(dr[9].ToString());
                             usr.direccion = dr[10].ToString();
-                            usr.numeroEmergencia = dr[13].ToString();
+                            usr.numeroEmergencia = dr[11].ToString();
                         }
                     }
                     else

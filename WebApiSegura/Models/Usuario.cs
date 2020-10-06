@@ -27,6 +27,11 @@ namespace WebApiSegura.Models
         public DateTime fechaRegistro { get; set; }
         public string nombreCreador { get; set; }
         public string numeroEmergencia { get; set; }
+        public string token { get; set; }
+        public string mensaje { get; set; }
+        public int existe { get; set; }
+        public string rolename { get; set; }
+
 
         private BaseDatos bd;
 

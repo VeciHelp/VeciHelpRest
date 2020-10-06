@@ -25,14 +25,14 @@ namespace VeciHelp.Controllers
 
             //instancio la clase loginrequest para llamar a metodo que valida el usuario
             RequestLogin lgn = new RequestLogin();
-            ResponseLogin response = new ResponseLogin();
+            Usuario usr = new Usuario();
 
-            response = lgn.Validarlogin(login);
+            usr = lgn.Validarlogin(login);
 
-            if (response!=null)
+            if (usr.existe==1)
             {
-                    response.token = TokenGenerator.GenerateTokenJwt(login.correo, response.roleName);
-                    return Ok(response);
+                    usr.token = TokenGenerator.GenerateTokenJwt(login.correo, usr.rolename);
+                    return Ok(usr);
             }     
             // Acceso denegado
             return Unauthorized();

@@ -481,7 +481,7 @@ namespace VeciHelp.BD
                             usr.fechaNacimiento = DateTime.Parse(dr[8].ToString());
                             usr.celular = int.Parse(dr[9].ToString());
                             usr.direccion = dr[10].ToString();
-                            usr.numeroEmergencia = dr[13].ToString();
+                            usr.numeroEmergencia = dr[11].ToString();
                         }
                     }
                     else

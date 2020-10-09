@@ -21,6 +21,7 @@ namespace WebApiSegura.Models
         public string direccion { get; set; }
         public string organizacion { get; set; }
         public int participantes { get; set; }
+        public string foto { get; set; }
 
         private BaseDatos bd;
 
@@ -60,16 +61,16 @@ namespace WebApiSegura.Models
             return bd.P_AcudirLlamadoIns(idUsuario, idAlerta, out mensaje);
         }
 
-        public List<Alerta> M_AlertaLst()
+        public List<Alerta> M_AlertaLst(int idUsuario)
         {
             bd = new BaseDatos();
-            return bd.P_AlertaLst();
+            return bd.P_AlertaLst(idUsuario);
         }
 
-        public Alerta M_Alerta(int idAlerta)
+        public Alerta M_AlertaById(int idAlerta, int idUsuario)
         {
             bd = new BaseDatos();
-            return bd.P_Alerta(idAlerta);
+            return bd.P_AlertaById(idAlerta,idUsuario);
         }
 
 

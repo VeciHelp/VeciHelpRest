@@ -597,7 +597,7 @@ namespace VeciHelp.BD
         }
 
         //metodo para que el usuario se registre, esto debe hacerse posterior a ser enrolado por un administrador
-        public bool p_UsuarioIns(string correo, string codigoVerificacion, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, string clave, out string mensaje)
+        public bool p_UsuarioIns(string correo, string codigoVerificacion, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, string clave, string foto, out string mensaje)
         {
             mensaje = string.Empty;
             String _sql = string.Format("p_UsuarioIns");
@@ -619,6 +619,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
                     sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
+                    sqlComm.Parameters.Add("@Foto", SqlDbType.VarChar, 2147483647);
                     sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
 
@@ -633,9 +634,10 @@ namespace VeciHelp.BD
                     sqlComm.Parameters[8].Value = celular;
                     sqlComm.Parameters[9].Value = direccion;
                     sqlComm.Parameters[10].Value = clave;
+                    sqlComm.Parameters[11].Value = foto;
 
                     sqlComm.ExecuteNonQuery();
-                    mensaje = sqlComm.Parameters[11].Value.ToString();
+                    mensaje = sqlComm.Parameters[12].Value.ToString();
 
                     this.Close();
                     return true;
@@ -887,7 +889,7 @@ namespace VeciHelp.BD
         }
 
         //metodo que lista las alertas activas en curso
-        public List<Alerta> P_AlertaLst()
+        public List<Alerta> P_AlertaLst(int idUsuario)
         {
             List<Alerta> alertLst = new List<Alerta>();
 
@@ -898,6 +900,10 @@ namespace VeciHelp.BD
                 {
                     SqlCommand sqlComm = new SqlCommand(_sql, cnn);
                     sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+
+                    sqlComm.Parameters[0].Value = idUsuario;
 
                     SqlDataReader dr = sqlComm.ExecuteReader();
 
@@ -934,7 +940,9 @@ namespace VeciHelp.BD
             return alertLst;
         }
 
-        public Alerta P_Alerta(int idAlerta)
+
+        //metodo que lista las alertas activas en curso
+        public Alerta P_AlertaById(int idAlerta, int idUsuario)
         {
             Alerta alert = new Alerta();
 
@@ -946,8 +954,12 @@ namespace VeciHelp.BD
                     SqlCommand sqlComm = new SqlCommand(_sql, cnn);
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Alerta", SqlDbType.Int);
-                    sqlComm.Parameters[0].Value = idAlerta;
+
+
+                    sqlComm.Parameters[0].Value = idUsuario;
+                    sqlComm.Parameters[1].Value = idAlerta;
 
                     SqlDataReader dr = sqlComm.ExecuteReader();
 
@@ -955,8 +967,6 @@ namespace VeciHelp.BD
                     {
                         while (dr.Read())
                         {
-                            
-
                             alert.idAlerta = int.Parse(dr[0].ToString());
                             alert.fechaAlerta = DateTime.Parse(dr[1].ToString());
                             alert.horaAlerta = DateTime.Parse(dr[2].ToString());
@@ -970,6 +980,7 @@ namespace VeciHelp.BD
                             alert.direccion = dr[10].ToString();
                             alert.organizacion = dr[11].ToString();
                             alert.participantes = Int32.Parse(dr[18].ToString());
+                            alert.foto = dr[19].ToString();
                         }
                     }
                     this.Close();

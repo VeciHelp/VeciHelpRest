@@ -83,15 +83,15 @@ namespace WebApiSegura.Controllers
         [HttpGet]
         [Route("GetAll")]
         //metodo que lista las alertas activas
-        public IHttpActionResult GetAll()
+        public IHttpActionResult GetAll(int idUsuario)
         {
             Alerta alert = new Alerta();
             var respuesta = "Error";
 
-            if (alert.M_AlertaLst()!=null)
+            if (alert.M_AlertaLst(idUsuario)!=null)
             {
 
-                return Ok(alert.M_AlertaLst());
+                return Ok(alert.M_AlertaLst(idUsuario));
             }
             else
                 return Ok(respuesta);
@@ -100,15 +100,15 @@ namespace WebApiSegura.Controllers
         [HttpGet]
         [Route("Get")]
         //metodo que lista una alerta por id
-        public IHttpActionResult Get(int Id)
+        public IHttpActionResult Get(int idAlerta, int IdUsuario)
         {
             Alerta alert = new Alerta();
             var respuesta = "Error";
 
-            if (alert.M_Alerta(Id) != null)
+            if (alert.M_AlertaById(idAlerta,IdUsuario) != null)
             {
 
-                return Ok(alert.M_Alerta(Id));
+                return Ok(alert.M_AlertaById(idAlerta, IdUsuario));
             }
             else
                 return Ok(respuesta);

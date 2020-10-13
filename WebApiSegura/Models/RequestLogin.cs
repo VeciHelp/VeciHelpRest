@@ -8,12 +8,13 @@ namespace VeciHelp.Models
     {
         public string correo { get; set; }
         public string clave { get; set; }
+        public string TokenFireBase { get; set; }
 
         public Usuario Validarlogin(RequestLogin login)
         {
             BaseDatos bd = new BaseDatos();
 
-            return bd.P_Login(login.correo, login.clave);
+            return bd.P_Login(login.correo, login.clave,login.TokenFireBase);
         }
     }
 

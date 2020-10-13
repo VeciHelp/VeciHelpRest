@@ -38,14 +38,14 @@ namespace WebApiSegura.Controllers
         public IHttpActionResult SOS(RequestAlerta alerta)
         {
             Alerta alert = new Alerta();
-            var respuesta = string.Empty;
+            var Tokens = alert.M_AlertaSOSIns(alerta.idUsuario, alerta.idVecino);
 
-            if (alert.M_AlertaSOSIns(alerta.idUsuario,alerta.idVecino, out respuesta))
+            if (Tokens.Count>0)
             {
-                return Ok(respuesta);
+                return Ok(Tokens);
             }
             else
-                return Ok(respuesta);
+                return NotFound();
         }
 
         [HttpPost]

@@ -39,11 +39,10 @@ namespace WebApiSegura.Models
         }
 
         //sirve para las alertas en casa propia y para las alertas en casa vecino
-        public bool M_AlertaSOSIns(int idUsuario, int idvecino, out string mensaje)
+        public List<string> M_AlertaSOSIns(int idUsuario, int idvecino)
         {
-            mensaje = string.Empty;
             bd = new BaseDatos();
-            return bd.P_AlertaSOSIns(idUsuario, idvecino, out mensaje);
+            return bd.P_AlertaSOSIns(idUsuario, idvecino);
         }
 
         //sirve para las alertas en casa propia y para las alertas en casa vecino

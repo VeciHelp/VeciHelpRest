@@ -86,7 +86,7 @@ namespace VeciHelp.BD
         #region Login
 
         //metodo que valida si el correo y contraseña son correctos y retorna el tipo de usuario
-        public Usuario P_Login(string correo, string clave)
+        public Usuario P_Login(string correo, string clave,string tokenFirebase)
         {
             Usuario usr = new Usuario();
 
@@ -100,6 +100,7 @@ namespace VeciHelp.BD
 
                     sqlComm.Parameters.Add("@correo", SqlDbType.VarChar, 100);
                     sqlComm.Parameters.Add("@clave", SqlDbType.VarChar, 200);
+                    sqlComm.Parameters.Add("@TokenFirebase", SqlDbType.VarChar, 300);
                     sqlComm.Parameters.Add("@Existe", SqlDbType.Int).Direction = ParameterDirection.Output;
                     sqlComm.Parameters.Add("@Id_Usuario ", SqlDbType.Int).Direction = ParameterDirection.Output;
                     sqlComm.Parameters.Add("@RoleName ", SqlDbType.VarChar,100).Direction = ParameterDirection.Output;
@@ -118,31 +119,32 @@ namespace VeciHelp.BD
                     
                     sqlComm.Parameters[0].Value = correo;
                     sqlComm.Parameters[1].Value = clave;
+                    sqlComm.Parameters[2].Value = tokenFirebase;
 
                     sqlComm.ExecuteNonQuery();
 
-                    int.TryParse(sqlComm.Parameters[2].Value.ToString(), out int temp_Existe);
+                    int.TryParse(sqlComm.Parameters[3].Value.ToString(), out int temp_Existe);
                     usr.existe = temp_Existe;
                     if (usr.existe==1)
                     {
                         
-                        int.TryParse(sqlComm.Parameters[3].Value.ToString(), out int temp_Id_Usuario);
+                        int.TryParse(sqlComm.Parameters[4].Value.ToString(), out int temp_Id_Usuario);
                         usr.id_Usuario = temp_Id_Usuario;
-                        usr.rolename = sqlComm.Parameters[4].Value.ToString();
-                        usr.correo = sqlComm.Parameters[5].Value.ToString();
-                        usr.apellido = sqlComm.Parameters[7].Value.ToString();
-                        usr.rut = sqlComm.Parameters[8].Value.ToString();
-                        usr.digito = Char.Parse(sqlComm.Parameters[9].Value.ToString());
-                        usr.Foto = sqlComm.Parameters[10].Value.ToString();
-                        usr.antecedentesSalud = sqlComm.Parameters[11].Value.ToString();
-                        usr.nombre = sqlComm.Parameters[6].Value.ToString();
-                        DateTime.TryParse(sqlComm.Parameters[12].Value.ToString(), out DateTime temp_fechaNac);
+                        usr.rolename = sqlComm.Parameters[5].Value.ToString();
+                        usr.correo = sqlComm.Parameters[6].Value.ToString();
+                        usr.apellido = sqlComm.Parameters[8].Value.ToString();
+                        usr.rut = sqlComm.Parameters[9].Value.ToString();
+                        usr.digito = Char.Parse(sqlComm.Parameters[10].Value.ToString());
+                        usr.Foto = sqlComm.Parameters[11].Value.ToString();
+                        usr.antecedentesSalud = sqlComm.Parameters[12].Value.ToString();
+                        usr.nombre = sqlComm.Parameters[7].Value.ToString();
+                        DateTime.TryParse(sqlComm.Parameters[13].Value.ToString(), out DateTime temp_fechaNac);
                         usr.fechaNacimiento = temp_fechaNac;
-                        int.TryParse(sqlComm.Parameters[13].Value.ToString(), out int temp_Celular);
+                        int.TryParse(sqlComm.Parameters[14].Value.ToString(), out int temp_Celular);
                         usr.celular = temp_Celular;
-                        usr.direccion = sqlComm.Parameters[14].Value.ToString();
-                        usr.numeroEmergencia = sqlComm.Parameters[15].Value.ToString();
-                        usr.mensaje = sqlComm.Parameters[16].Value.ToString();
+                        usr.direccion = sqlComm.Parameters[15].Value.ToString();
+                        usr.numeroEmergencia = sqlComm.Parameters[16].Value.ToString();
+                        usr.mensaje = sqlComm.Parameters[17].Value.ToString();
                     }
                     
 
@@ -781,9 +783,10 @@ namespace VeciHelp.BD
         }
 
         //metodo que inserta una alerta por SOS , tanto en casa propia como en casa vecino
-        public bool P_AlertaSOSIns(int idUsuario,int idVecino, out string mensaje)
+        public List<string> P_AlertaSOSIns(int idUsuario,int idVecino)
         {
-            mensaje = string.Empty;
+            List<string> tokenFireBaseLst = new List<string>();
+
             String _sql = string.Format("p_AlertaSOSIns");
             try
             {
@@ -794,25 +797,29 @@ namespace VeciHelp.BD
 
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = idVecino;
 
-                    sqlComm.ExecuteNonQuery();
+                    SqlDataReader dr = sqlComm.ExecuteReader();
 
-                    mensaje = sqlComm.Parameters[2].Value.ToString();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            tokenFireBaseLst.Add(dr[0].ToString());
+                        }
+                    }
 
                     this.Close();
-                    return true;
                 }
-                return false;
+                return tokenFireBaseLst;
             }
             catch (SqlException e)
             {
                 //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
                 this.Close();
-                return false;
+                return tokenFireBaseLst;
             }
         }
 

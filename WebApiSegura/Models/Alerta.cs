@@ -31,11 +31,10 @@ namespace WebApiSegura.Models
         }
 
 
-        public bool M_AlertaSospechaIns(int idUsuario, string coordenadas, string texto, out string mensaje)
+        public List<string> M_AlertaSospechaIns(int idUsuario, string coordenadas, string texto)
         {
-            mensaje = string.Empty;
             bd = new BaseDatos();
-            return bd.P_AlertaSospechaIns(idUsuario, coordenadas,texto, out mensaje);
+            return bd.P_AlertaSospechaIns(idUsuario, coordenadas,texto);
         }
 
         //sirve para las alertas en casa propia y para las alertas en casa vecino
@@ -46,11 +45,10 @@ namespace WebApiSegura.Models
         }
 
         //sirve para las alertas en casa propia y para las alertas en casa vecino
-        public bool M_AlertaEmergenciaIns(int idUsuario, int idvecino, out string mensaje)
+        public List<string> M_AlertaEmergenciaIns(int idUsuario, int idvecino)
         {
-            mensaje = string.Empty;
             bd = new BaseDatos();
-            return bd.P_AlertaEmergenciaIns(idUsuario, idvecino, out mensaje);
+            return bd.P_AlertaEmergenciaIns(idUsuario, idvecino);
         }
 
         public bool M_AcudirLlamadoIns(int idUsuario,int idAlerta,out string mensaje)

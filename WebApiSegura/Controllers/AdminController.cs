@@ -94,7 +94,7 @@ namespace VeciHelp.Controllers
 
         [HttpGet]
         [Route("GetUsuarios")]
-        //metodo que retorna los datos de un usuario by id
+        //metodo que retorna los vecinos que pueden ser asociados a un usuario en especifico
         public IHttpActionResult GetUsers(int idUsuario)
         {
             Usuario usr = new Usuario();

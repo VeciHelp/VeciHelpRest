@@ -371,7 +371,7 @@ namespace VeciHelp.BD
             return usrLst;
         }
 
-        //metodo que retora un usuario por id
+        //metodo que retora listado de vecinos disponibles para asignar a un id esfecifico
         public List<Usuario> p_UsuariosLst(int idUsuario)
         {
             List<Usuario> usrLst = new List<Usuario>();
@@ -745,9 +745,10 @@ namespace VeciHelp.BD
         #region Alertas
          
         //metodo que inserta una alerta por sospecha , tanto en casa propia como en casa vecino
-        public bool P_AlertaSospechaIns(int idUsuario,string coordenadas,string texto, out string mensaje)
+        public List<string> P_AlertaSospechaIns(int idUsuario,string coordenadas,string texto)
         {
-            mensaje = string.Empty;
+            List<string> tokenFireBaseLst = new List<string>();
+
             String _sql = string.Format("p_AlertaSospechaIns");
             try
             {
@@ -757,28 +758,32 @@ namespace VeciHelp.BD
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@CoordenadaSospechosa", SqlDbType.VarChar, 100);
-                    sqlComm.Parameters.Add("@TextoSospecha", SqlDbType.VarChar, 500);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@CoordenadaSospechosa", SqlDbType.VarChar,100);
+                    sqlComm.Parameters.Add("@TextoSospecha", SqlDbType.VarChar, 2147483647);
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = coordenadas;
                     sqlComm.Parameters[2].Value = texto;
 
-                    sqlComm.ExecuteNonQuery();
+                    SqlDataReader dr = sqlComm.ExecuteReader();
 
-                    mensaje = sqlComm.Parameters[3].Value.ToString();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            tokenFireBaseLst.Add(dr[0].ToString());
+                        }
+                    }
 
                     this.Close();
-                    return true;
                 }
-                return false;
+                return tokenFireBaseLst;
             }
             catch (SqlException e)
             {
                 //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
                 this.Close();
-                return false;
+                return tokenFireBaseLst;
             }
         }
 
@@ -824,9 +829,10 @@ namespace VeciHelp.BD
         }
 
         //metodo que inserta una alerta por Emergencia , tanto en casa propia como en casa vecino
-        public bool P_AlertaEmergenciaIns(int idUsuario, int idVecino, out string mensaje)
+        public List<string> P_AlertaEmergenciaIns(int idUsuario, int idVecino)
         {
-            mensaje = string.Empty;
+            List<string> tokenFireBaseLst = new List<string>();
+
             String _sql = string.Format("p_AlertaEmergenciaIns");
             try
             {
@@ -837,25 +843,29 @@ namespace VeciHelp.BD
 
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Id_Vecino", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
                     sqlComm.Parameters[1].Value = idVecino;
 
-                    sqlComm.ExecuteNonQuery();
+                    SqlDataReader dr = sqlComm.ExecuteReader();
 
-                    mensaje = sqlComm.Parameters[2].Value.ToString();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            tokenFireBaseLst.Add(dr[0].ToString());
+                        }
+                    }
 
                     this.Close();
-                    return true;
                 }
-                return false;
+                return tokenFireBaseLst;
             }
             catch (SqlException e)
             {
                 //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
                 this.Close();
-                return false;
+                return tokenFireBaseLst;
             }
         }
 

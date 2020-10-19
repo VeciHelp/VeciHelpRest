@@ -60,6 +60,12 @@ namespace WebApiSegura.Models
             return bd.p_UsuarioIns(this.correo, this.codigoVerificacion, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, this.clave,this.Foto, out  mensaje);
         }
 
+        public bool M_ValidaCorreoyCodigo(out string mensaje)
+        {
+            bd = new BaseDatos();
+            return bd.p_ValidaCorreoyCodigo(this.correo, this.codigoVerificacion, out mensaje);
+        }
+
         public bool M_UsuarioUpd(out string mensaje)
         {
             bd = new BaseDatos();

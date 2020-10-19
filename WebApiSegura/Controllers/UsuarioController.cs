@@ -29,6 +29,22 @@ namespace WebApiSegura.Controllers
                 return Ok(respuesta);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("ValidarCodigo")]
+        //metodo para crear usuarios
+        public IHttpActionResult ValidarCodigo(Usuario usuario)
+        {
+            var respuesta = "Error inesperado";
+
+            if (usuario.M_ValidaCorreoyCodigo(out respuesta))
+            {
+                return Ok(respuesta);
+            }
+            else
+                return Ok(respuesta);
+        }
+
         [HttpGet]
         [Route("GetUserId")]
         //metodo que retorna los datos de un usuario by id

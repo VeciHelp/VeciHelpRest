@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -31,10 +32,12 @@ namespace WebApiSegura.Models
         }
 
 
-        public List<string> M_AlertaSospechaIns(int idUsuario, string coordenadas, string texto)
+        public List<string> M_AlertaSospechaIns(int idUsuario, string coordenadas, byte[] texto)
         {
             bd = new BaseDatos();
-            return bd.P_AlertaSospechaIns(idUsuario, coordenadas,texto);
+
+            var fotobase64= Convert.ToBase64String(texto);
+            return bd.P_AlertaSospechaIns(idUsuario, coordenadas, fotobase64);
         }
 
         //sirve para las alertas en casa propia y para las alertas en casa vecino

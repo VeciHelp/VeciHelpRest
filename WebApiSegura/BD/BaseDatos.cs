@@ -598,6 +598,43 @@ namespace VeciHelp.BD
             return usr;
         }
 
+        //metodo que valida si el correo y el codigo de verificacion son validos para crear el usuario
+        public bool p_ValidaCorreoyCodigo(string correo, string codigoVerificacion, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_ValidaCorreoyCodigo");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Correo", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@CodigoVerificacion", SqlDbType.VarChar, 10);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+
+                    sqlComm.Parameters[0].Value = correo;
+                    sqlComm.Parameters[1].Value = codigoVerificacion;
+
+                    sqlComm.ExecuteNonQuery();
+                    mensaje = sqlComm.Parameters[2].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
+        }
+
+
         //metodo para que el usuario se registre, esto debe hacerse posterior a ser enrolado por un administrador
         public bool p_UsuarioIns(string correo, string codigoVerificacion, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, string clave, string foto, out string mensaje)
         {
@@ -653,7 +690,7 @@ namespace VeciHelp.BD
                 return false;
             }
         }
-        
+
         //Metodo con el cual un usuario puede actualizar sus datos personales
         public bool p_UsuarioUpd(int idUsuario, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, out string mensaje)
         {

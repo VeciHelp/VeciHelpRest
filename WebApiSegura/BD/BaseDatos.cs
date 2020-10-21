@@ -655,7 +655,7 @@ namespace VeciHelp.BD
         }
         
         //Metodo con el cual un usuario puede actualizar sus datos personales
-        public bool p_UsuarioUpd(int idUsuario, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, string clave, out string mensaje)
+        public bool p_UsuarioUpd(int idUsuario, string nombre, string apellido, string rut, char digito, string antecedentesSalud, DateTime fechaNacimiento, int celular, string direccion, out string mensaje)
         {
             mensaje = string.Empty;
             String _sql = string.Format("p_UsuarioUpd");
@@ -675,7 +675,6 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@FechaNacimiento", SqlDbType.Date);
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
-                    sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
                     sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
@@ -687,11 +686,10 @@ namespace VeciHelp.BD
                     sqlComm.Parameters[6].Value = fechaNacimiento;
                     sqlComm.Parameters[7].Value = celular;
                     sqlComm.Parameters[8].Value = direccion;
-                    sqlComm.Parameters[9].Value = clave;
 
                     sqlComm.ExecuteNonQuery();
 
-                    mensaje = sqlComm.Parameters[10].Value.ToString();
+                    mensaje = sqlComm.Parameters[9].Value.ToString();
 
                     this.Close();
                     return true;

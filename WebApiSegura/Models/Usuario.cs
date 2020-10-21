@@ -63,7 +63,7 @@ namespace WebApiSegura.Models
         public bool M_UsuarioUpd(out string mensaje)
         {
             bd = new BaseDatos();
-            return bd.p_UsuarioUpd(this.id_Usuario, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, this.clave, out  mensaje);
+            return bd.p_UsuarioUpd(this.id_Usuario, this.nombre, this.apellido, this.rut, this.digito, this.antecedentesSalud, this.fechaNacimiento, this.celular, this.direccion, out  mensaje);
         }
 
         public bool M_FotoUsuarioUpd(int idTipoUsuario,string foto, out string mensaje)

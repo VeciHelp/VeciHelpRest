@@ -72,7 +72,7 @@ namespace WebApiSegura.Controllers
             Usuario usr = new Usuario();
             var respuesta = "error";
 
-            if (usr.M_FotoUsuarioUpd(fotoUpd.id_TipoUsuario,fotoUpd.Foto, out respuesta))
+            if (usr.M_FotoUsuarioUpd(fotoUpd.id_usuario,fotoUpd.Foto, out respuesta))
             {
                 return Ok(respuesta);
             }

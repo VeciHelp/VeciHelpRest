@@ -22,6 +22,7 @@ namespace WebApiSegura.Models
         public string organizacion { get; set; }
         public int participantes { get; set; }
         public string foto { get; set; }
+        public string opcionBoton { get; set; }
 
         private BaseDatos bd;
 

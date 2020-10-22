@@ -978,6 +978,7 @@ namespace VeciHelp.BD
                             alert.direccion = dr[10].ToString();
                             alert.organizacion = dr[11].ToString();
                             alert.participantes = Int32.Parse(dr[18].ToString());
+                            alert.opcionBoton = dr[20].ToString();
                             alertLst.Add(alert);
                         }
                     }
@@ -1033,6 +1034,7 @@ namespace VeciHelp.BD
                             alert.organizacion = dr[11].ToString();
                             alert.participantes = Int32.Parse(dr[18].ToString());
                             alert.foto = dr[19].ToString();
+                            alert.opcionBoton= dr[20].ToString();
                         }
                     }
                     this.Close();

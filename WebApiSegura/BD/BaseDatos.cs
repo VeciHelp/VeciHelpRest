@@ -940,6 +940,42 @@ namespace VeciHelp.BD
             }
         }
 
+        //metodo con el que un usuario finaliza una alerta
+        public bool p_CancelaAcudirLlamadoUpd(int idUsuario, int idAlerta, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_CancelaAcudirLlamadoUpd");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Id_Alerta", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                    sqlComm.Parameters[0].Value = idUsuario;
+                    sqlComm.Parameters[1].Value = idAlerta;
+
+                    sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[2].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
+        }
+
         //metodo que lista las alertas activas en curso
         public List<Alerta> P_AlertaLst(int idUsuario)
         {

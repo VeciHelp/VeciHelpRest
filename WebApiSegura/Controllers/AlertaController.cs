@@ -82,6 +82,22 @@ namespace WebApiSegura.Controllers
                 return Ok(respuesta);
         }
 
+        [HttpPut]
+        [Route("FinalizarAlerta")]
+        //metodo para acuidir a una alerta
+        public IHttpActionResult FinalizarAlerta(RequestAlerta alerta)
+        {
+            Alerta alert = new Alerta();
+            var respuesta = string.Empty;
+
+            if (alert.M_CancelaAcudirLlamadoUpd(alerta.idUsuario, alerta.idAlerta, out respuesta))
+            {
+                return Ok(respuesta);
+            }
+            else
+                return Ok(respuesta);
+        }
+
         [HttpGet]
         [Route("GetAll")]
         //metodo que lista las alertas activas

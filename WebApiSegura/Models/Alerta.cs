@@ -62,6 +62,13 @@ namespace WebApiSegura.Models
             return bd.P_AcudirLlamadoIns(idUsuario, idAlerta, out mensaje);
         }
 
+        public bool M_CancelaAcudirLlamadoUpd(int idUsuario, int idAlerta, out string mensaje)
+        {
+            mensaje = string.Empty;
+            bd = new BaseDatos();
+            return bd.p_CancelaAcudirLlamadoUpd(idUsuario, idAlerta, out mensaje);
+        }
+
         public List<Alerta> M_AlertaLst(int idUsuario)
         {
             bd = new BaseDatos();

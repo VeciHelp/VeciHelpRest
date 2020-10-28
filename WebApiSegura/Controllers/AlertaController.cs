@@ -27,11 +27,11 @@ namespace WebApiSegura.Controllers
 
             if (Tokens.Count > 0)
             {
-                return Ok(Tokens);
+                var mensaje =alert.SendNotification(Tokens.ToArray(), "Alerta por Sospecha", alerta.coordenadas);
+                return Ok(mensaje);
             }
             else
                 return NotFound();
-
         }
 
         [HttpPost]
@@ -44,7 +44,8 @@ namespace WebApiSegura.Controllers
 
             if (Tokens.Count>0)
             {
-                return Ok(Tokens);
+                var mensaje = alert.SendNotification(Tokens.ToArray(), "Alerta de Robo", alerta.coordenadas);
+                return Ok(mensaje);
             }
             else
                 return NotFound();
@@ -60,7 +61,8 @@ namespace WebApiSegura.Controllers
 
             if (Tokens.Count > 0)
             {
-                return Ok(Tokens);
+                var mensaje = alert.SendNotification(Tokens.ToArray(), "Necesitan tu Ayuda!!", alerta.coordenadas);
+                return Ok(mensaje);
             }
             else
                 return NotFound();

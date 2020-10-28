@@ -140,7 +140,7 @@ namespace VeciHelp.Controllers
             Administrador adminis = new Administrador();
             var respuesta = "error";
 
-            if (adminis.M_DesactivaUsuarioUpd(idUsuario, out respuesta))
+            if (adminis.M_UsuarioDel(idUsuario, out respuesta))
             {
                 return Ok(respuesta);
             }

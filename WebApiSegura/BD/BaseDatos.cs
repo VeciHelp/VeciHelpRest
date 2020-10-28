@@ -109,7 +109,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Apellido ", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
                     sqlComm.Parameters.Add("@Rut ", SqlDbType.Int).Direction = ParameterDirection.Output;
                     sqlComm.Parameters.Add("@Digito ", SqlDbType.VarChar, 1).Direction = ParameterDirection.Output;
-                    sqlComm.Parameters.Add("@Foto ", SqlDbType.VarChar, 2147483647).Direction = ParameterDirection.Output;
+                    //sqlComm.Parameters.Add("@Foto ", SqlDbType.VarChar, 2147483647).Direction = ParameterDirection.Output;
                     sqlComm.Parameters.Add("@AntecedentesSalud ", SqlDbType.VarChar, 2147483647).Direction = ParameterDirection.Output;
                     sqlComm.Parameters.Add("@FechaNacimiento ", SqlDbType.Date).Direction = ParameterDirection.Output;
                     sqlComm.Parameters.Add("@Celular ", SqlDbType.Int).Direction = ParameterDirection.Output;
@@ -132,19 +132,26 @@ namespace VeciHelp.BD
                         usr.id_Usuario = temp_Id_Usuario;
                         usr.rolename = sqlComm.Parameters[5].Value.ToString();
                         usr.correo = sqlComm.Parameters[6].Value.ToString();
+                        usr.nombre = sqlComm.Parameters[7].Value.ToString();
                         usr.apellido = sqlComm.Parameters[8].Value.ToString();
                         usr.rut = sqlComm.Parameters[9].Value.ToString();
                         usr.digito = Char.Parse(sqlComm.Parameters[10].Value.ToString());
-                        usr.Foto = sqlComm.Parameters[11].Value.ToString();
-                        usr.antecedentesSalud = sqlComm.Parameters[12].Value.ToString();
-                        usr.nombre = sqlComm.Parameters[7].Value.ToString();
-                        DateTime.TryParse(sqlComm.Parameters[13].Value.ToString(), out DateTime temp_fechaNac);
+                        //usr.Foto = sqlComm.Parameters[11].Value.ToString();
+                        usr.antecedentesSalud = sqlComm.Parameters[11].Value.ToString();
+                       
+                        DateTime.TryParse(sqlComm.Parameters[12].Value.ToString(), out DateTime temp_fechaNac);
                         usr.fechaNacimiento = temp_fechaNac;
-                        int.TryParse(sqlComm.Parameters[14].Value.ToString(), out int temp_Celular);
+                        int.TryParse(sqlComm.Parameters[13].Value.ToString(), out int temp_Celular);
                         usr.celular = temp_Celular;
-                        usr.direccion = sqlComm.Parameters[15].Value.ToString();
-                        usr.numeroEmergencia = sqlComm.Parameters[16].Value.ToString();
-                        usr.mensaje = sqlComm.Parameters[17].Value.ToString();
+                        usr.direccion = sqlComm.Parameters[14].Value.ToString();
+                        usr.numeroEmergencia = sqlComm.Parameters[15].Value.ToString();
+                        usr.mensaje = sqlComm.Parameters[16].Value.ToString();
+                    }
+                    else if (usr.existe == 2)
+                    {
+                        usr.mensaje= sqlComm.Parameters[16].Value.ToString();
+                        int.TryParse(sqlComm.Parameters[4].Value.ToString(), out int temp_Id_Usuario);
+                        usr.id_Usuario = temp_Id_Usuario;
                     }
                     
 
@@ -417,10 +424,10 @@ namespace VeciHelp.BD
         }
 
         //metodo que elimina un usuario
-        public bool p_DesactivaUsuarioUpd(int idUsuario,out string mensaje)
+        public bool p_UsuarioDel(int idUsuario,out string mensaje)
         {
             mensaje = string.Empty;
-            String _sql = string.Format("p_DesactivaUsuarioUpd");
+            String _sql = string.Format("p_UsuarioDel");
             try
             {
                 if (this.Open())
@@ -775,14 +782,83 @@ namespace VeciHelp.BD
                 return false;
             }
         }
+
+        public bool p_ClaveUsuarioUpd(int idUsuario, string claveAntigua, string claveNueva, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_ClaveUsuarioUpd");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@ClaveAntigua", SqlDbType.VarChar, 200);
+                    sqlComm.Parameters.Add("@ClaveNueva", SqlDbType.VarChar, 200);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                    sqlComm.Parameters[0].Value = idUsuario;
+                    sqlComm.Parameters[1].Value = claveAntigua;
+                    sqlComm.Parameters[2].Value = claveNueva;
+
+                    sqlComm.ExecuteNonQuery();
+                    mensaje = sqlComm.Parameters[3].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
+        }
+
+        //sp que recibe un correo y actualiza la clave de ese usuario
+        public bool p_RecuperarClaveUsuarioGet(string correo, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_RecuperarClaveUsuarioGet");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@correo", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                    sqlComm.Parameters[0].Value = correo;
+
+                    sqlComm.ExecuteNonQuery();
+                    mensaje = sqlComm.Parameters[1].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
+        }
         #endregion
 
         #region Alertas
-         
+
         //metodo que inserta una alerta por sospecha , tanto en casa propia como en casa vecino
-        public List<string> P_AlertaSospechaIns(int idUsuario,string coordenadas,string texto)
+        public List<string> P_AlertaSospechaIns(int idUsuario,string texto,string foto)
         {
-            List<string> tokenFireBaseLst = new List<string>();
+            List<string> tokenFireBaseLst=new List<string>();
 
             String _sql = string.Format("p_AlertaSospechaIns");
             try
@@ -797,8 +873,8 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@TextoSospecha", SqlDbType.VarChar, 2147483647);
 
                     sqlComm.Parameters[0].Value = idUsuario;
-                    sqlComm.Parameters[1].Value = coordenadas;
-                    sqlComm.Parameters[2].Value = texto;
+                    sqlComm.Parameters[1].Value = texto;
+                    sqlComm.Parameters[2].Value = foto;
 
                     SqlDataReader dr = sqlComm.ExecuteReader();
 
@@ -1013,8 +1089,9 @@ namespace VeciHelp.BD
                             alert.textoSospecha = dr[9].ToString();
                             alert.direccion = dr[10].ToString();
                             alert.organizacion = dr[11].ToString();
-                            alert.participantes = Int32.Parse(dr[18].ToString());
-                            alert.opcionBoton = dr[20].ToString();
+                            alert.nroEmergencia= dr[12].ToString();
+                            alert.participantes = Int32.Parse(dr[13].ToString());
+                            alert.opcionBoton = dr[15].ToString();
                             alertLst.Add(alert);
                         }
                     }
@@ -1068,9 +1145,10 @@ namespace VeciHelp.BD
                             alert.textoSospecha = dr[9].ToString();
                             alert.direccion = dr[10].ToString();
                             alert.organizacion = dr[11].ToString();
-                            alert.participantes = Int32.Parse(dr[18].ToString());
-                            alert.foto = dr[19].ToString();
-                            alert.opcionBoton= dr[20].ToString();
+                            alert.nroEmergencia= dr[12].ToString();
+                            alert.participantes = Int32.Parse(dr[13].ToString());
+                            alert.foto = dr[14].ToString();
+                            alert.opcionBoton = dr[15].ToString();
                         }
                     }
                     this.Close();

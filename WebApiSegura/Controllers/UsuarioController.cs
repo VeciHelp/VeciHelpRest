@@ -8,7 +8,6 @@ using WebApiSegura.Models;
 
 namespace WebApiSegura.Controllers
 {
-    [Authorize(Roles = "Administrador,Usuario")]
     [RoutePrefix("api/v1/user")]
     public class UsuarioController : ApiController
     {
@@ -45,6 +44,7 @@ namespace WebApiSegura.Controllers
                 return Ok(respuesta);
         }
 
+        [Authorize(Roles = "Administrador,Usuario")]
         [HttpGet]
         [Route("GetUserId")]
         //metodo que retorna los datos de un usuario by id
@@ -64,6 +64,7 @@ namespace WebApiSegura.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador,Usuario")]
         [HttpPut]
         [Route("UpdateUser")]
         //metodo para actualizar datos del usuario
@@ -80,6 +81,7 @@ namespace WebApiSegura.Controllers
                 return Ok(respuesta);
         }
 
+        [Authorize(Roles = "Administrador,Usuario")]
         [HttpPut]
         [Route("UpdatePhoto")]
         //metodo para actualizar foto de perfil
@@ -96,6 +98,23 @@ namespace WebApiSegura.Controllers
                 return Ok(respuesta);
         }
 
+        [Authorize(Roles = "Administrador,Usuario,Temporal")]
+        [HttpPut]
+        [Route("UpdatePass")]
+        //metodo para actualizar foto de perfil
+        public IHttpActionResult UpdatePass(RequestPass password)
+        {
+            var respuesta = "error";
+            Usuario usr = new Usuario();
+            if (usr.M_ClaveUsuarioUpd(password.id_usuario, password.claveAntigua,password.claveNueva, out respuesta))
+            {
+                return Ok(respuesta);
+            }
+            else
+                return NotFound();
+        }
+
+        [Authorize(Roles = "Administrador,Usuario")]
         [HttpGet]
         [Route("GetListaVecinoId")]
         //metodo que retorna listado de vecinos asociados a un usuario  **Listo
@@ -110,6 +129,21 @@ namespace WebApiSegura.Controllers
             return Ok(usrLst);
         }
 
+        [AllowAnonymous]
+        [HttpPut]
+        [Route("RecuperarClave")]
+        //metodo que retorna los datos de un usuario by id
+        public IHttpActionResult RecuperarClave(string correo)
+        {
+            var respuesta = "error";
 
+            Usuario usr = new Usuario();
+            if (usr.M_RecuperarClaveUsuarioGet(correo, out respuesta))
+            {
+                return Ok(respuesta);
+            }
+            else
+                return Ok(respuesta);
+        }
     }
 }

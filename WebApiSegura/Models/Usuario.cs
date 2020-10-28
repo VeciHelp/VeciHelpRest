@@ -78,6 +78,18 @@ namespace WebApiSegura.Models
             return bd.p_FotoUsuarioUpd(idTipoUsuario, foto, out  mensaje);
         }
 
+        public bool M_ClaveUsuarioUpd(int id_usuario, string claveAntigua,string claveNueva, out string mensaje)
+        {
+            bd = new BaseDatos();
+            return bd.p_ClaveUsuarioUpd(id_usuario, claveAntigua, claveNueva, out mensaje);
+        }
+
+        public bool M_RecuperarClaveUsuarioGet(string correo, out string mensaje)
+        {
+            bd = new BaseDatos();
+            return bd.p_RecuperarClaveUsuarioGet(correo, out mensaje);
+        }
+
         public List<Usuario> M_AsociacionVecinosLst(int idUsuario)
         {
             bd = new BaseDatos();

@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Script.Serialization;
 using VeciHelp.BD;
 
 namespace WebApiSegura.Models
@@ -20,6 +24,7 @@ namespace WebApiSegura.Models
         public string textoSospecha { get; set; }
         public string direccion { get; set; }
         public string organizacion { get; set; }
+        public string nroEmergencia { get; set; }
         public int participantes { get; set; }
         public string foto { get; set; }
         public string opcionBoton { get; set; }
@@ -32,13 +37,13 @@ namespace WebApiSegura.Models
         }
 
 
-        public List<string> M_AlertaSospechaIns(int idUsuario, string coordenadas, byte[] texto)
+        public List<string> M_AlertaSospechaIns(int idUsuario, string texto, byte[] foto)
         {
             bd = new BaseDatos();
 
-            var fotoSospecha = Convert.ToBase64String(texto);
+            var fotoSospecha = Convert.ToBase64String(foto);
 
-            return bd.P_AlertaSospechaIns(idUsuario, coordenadas, fotoSospecha);
+            return bd.P_AlertaSospechaIns(idUsuario, texto, fotoSospecha);
         }
 
         //sirve para las alertas en casa propia y para las alertas en casa vecino
@@ -84,7 +89,54 @@ namespace WebApiSegura.Models
 
 
 
+        //metodos para enviar las alertas
+        public  string SendNotification(string[] tokenList, string titulo, string mensaje)
+        {
+            string webAddr = "https://fcm.googleapis.com/fcm/send";
+            string serverKey = "AAAAJsP8Zq8:APA91bG4UU1OvFpwQRq3Xl_uw4JC7MMYHcGm8d2mVwkF45Km0L0ztw3Gt1hjbInUweqWd9NqdV8OQmlOxa440aw4snOcUsDq0Ty8eDQg5KSe-IzI1GbLMPDDBlXIo1jTIwG-smyl_eTd";
 
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Headers.Add(string.Format("Authorization: key={0}", serverKey));
+            httpWebRequest.Method = "POST";
 
+            var payload = new
+            {
+                registration_ids = tokenList,
+                priority = "high",
+                content_available = true,
+                notification = new
+                {
+                    body = mensaje,
+                    title = titulo
+                },
+            };
+            var serializer = new JavaScriptSerializer();
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                string json = serializer.Serialize(payload);
+                streamWriter.Write(json);
+                streamWriter.Flush();
+            }
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+            if (httpResponse.StatusCode == HttpStatusCode.OK)
+            {
+                // aqui se revisa el resultado de la peticion
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
+                return "Alerta enviada Correctamente";
+            }
+            else
+            {
+                return "Error al enviar alerta";
+            }
+
+          
+            
+        }
     }
 }

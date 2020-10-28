@@ -192,7 +192,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@FechaNacimiento", SqlDbType.Date);
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
-                    sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
+                    sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 200);
                     sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
 
@@ -664,7 +664,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@FechaNacimiento", SqlDbType.Date);
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
-                    sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 50);
+                    sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 200);
                     sqlComm.Parameters.Add("@Foto", SqlDbType.VarChar, 2147483647);
                     sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 

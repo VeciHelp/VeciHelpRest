@@ -22,7 +22,7 @@ namespace WebApiSegura.Controllers
         public IHttpActionResult Sospecha(RequestAlerta alerta)
         {
             Alerta alert = new Alerta();
-          
+
             var Tokens = alert.M_AlertaSospechaIns(alerta.idUsuario, alerta.coordenadas,alerta.texto);
 
             if (Tokens.Count > 0)

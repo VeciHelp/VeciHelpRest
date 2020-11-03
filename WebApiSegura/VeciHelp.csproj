@@ -115,9 +115,11 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\OrganizacionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Models\Administrador.cs" />
     <Compile Include="Models\Alerta.cs" />
+    <Compile Include="Models\Organizacion.cs" />
     <Compile Include="Models\RequestPass.cs" />
     <Compile Include="Models\RequestAlerta.cs" />
     <Compile Include="Models\RequestAsoc.cs" />

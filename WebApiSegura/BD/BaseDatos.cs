@@ -567,7 +567,7 @@ namespace VeciHelp.BD
                     SqlCommand sqlComm = new SqlCommand(_sql, cnn);
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
-                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
                     sqlComm.Parameters[0].Value = idUsuario;
 
                     SqlDataReader dr = sqlComm.ExecuteReader();
@@ -1092,6 +1092,8 @@ namespace VeciHelp.BD
                             alert.nroEmergencia= dr[12].ToString();
                             alert.participantes = Int32.Parse(dr[13].ToString());
                             alert.opcionBoton = dr[15].ToString();
+                            alert.idVecino = int.Parse(dr[16].ToString());
+                            alert.antecedentesSalud= dr[17].ToString();
                             alertLst.Add(alert);
                         }
                     }
@@ -1149,6 +1151,8 @@ namespace VeciHelp.BD
                             alert.participantes = Int32.Parse(dr[13].ToString());
                             alert.foto = dr[14].ToString();
                             alert.opcionBoton = dr[15].ToString();
+                            alert.idVecino = int.Parse(dr[16].ToString());
+                            alert.antecedentesSalud = dr[17].ToString();
                         }
                     }
                     this.Close();
@@ -1163,5 +1167,99 @@ namespace VeciHelp.BD
         }
 
         #endregion
+
+        #region Organizacion
+
+        //SP que muestra los datos de la organizacion al administrador
+        public Organizacion p_OrganizacionLst(int idUsuario)
+        {
+            Organizacion org = new Organizacion();
+
+            String _sql = string.Format("p_OrganizacionLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters[0].Value = idUsuario;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            org.nombre = dr[0].ToString();
+                            org.nroEmergencia = dr[1].ToString();
+                            org.cantMinAyuda = int.Parse(dr[2].ToString());
+                            org.comuna = dr[3].ToString();
+                            org.ciudad = dr[4].ToString();
+                            org.provincia = dr[5].ToString();
+                            org.region = dr[6].ToString();
+                            org.pais = dr[7].ToString();
+                        }
+                    }
+                    else
+                        org = null;
+
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+
+            return org;
+        }
+
+
+        //sp que permite editar datos de la organizacion al administrador
+        public bool p_OrganizacionUpd(int idUsuario, string nombre, string nroEmergencia, int cantMinima, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_OrganizacionUpd");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Nombre", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@NroEmergencia", SqlDbType.VarChar,20);
+                    sqlComm.Parameters.Add("@CantMinima", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                    sqlComm.Parameters[0].Value = idUsuario;
+                    sqlComm.Parameters[1].Value = nombre;
+                    sqlComm.Parameters[2].Value = nroEmergencia;
+                    sqlComm.Parameters[3].Value = cantMinima;
+
+                    sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[4].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                this.Close();
+                mensaje = e.Message.ToString();
+                return false;
+            }
+        }
+
+        #endregion
+
+
     }
 }

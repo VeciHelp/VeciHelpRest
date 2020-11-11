@@ -35,10 +35,16 @@ namespace WebApiSegura.Controllers
         public IHttpActionResult ValidarCodigo(Usuario usuario)
         {
             var respuesta = "Error inesperado";
+            var tipoUsuario = 0;
 
-            if (usuario.M_ValidaCorreoyCodigo(out respuesta))
+            if (usuario.M_ValidaCorreoyCodigo(out respuesta,out tipoUsuario))
             {
-                return Ok(respuesta);
+                var obj = new
+                {
+                    resp = respuesta,
+                    tipo = tipoUsuario,
+                };
+                return Ok(obj);
             }
             else
                 return Ok(respuesta);

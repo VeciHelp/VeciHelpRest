@@ -171,7 +171,7 @@ namespace VeciHelp.BD
         #region Administrador
 
         //metodo para que el administrador se registre, esto debe hacerse posterior a ser enrolado
-        public bool p_UsuarioAdministradorIns(string correo, string codigoVerificacion,string nombre,string apellido,string rut,char digito,string antecedentesSalud,DateTime fechaNacimiento, int celular,string direccion,string clave, out string mensaje)
+        public bool p_UsuarioAdministradorIns(string correo, string codigoVerificacion,string nombre,string apellido,string rut,char digito,string antecedentesSalud,DateTime fechaNacimiento, int celular,string direccion,string clave,string foto, out string mensaje)
         {
             mensaje = string.Empty;
             String _sql = string.Format("p_UsuarioAdministradorIns");
@@ -193,6 +193,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Celular", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Direccion", SqlDbType.VarChar, 500);
                     sqlComm.Parameters.Add("@Clave", SqlDbType.VarChar, 200);
+                    sqlComm.Parameters.Add("@Foto", SqlDbType.VarChar, 2147483647);
                     sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
 
@@ -207,9 +208,10 @@ namespace VeciHelp.BD
                     sqlComm.Parameters[8].Value = celular;
                     sqlComm.Parameters[9].Value = direccion;
                     sqlComm.Parameters[10].Value = clave;
+                    sqlComm.Parameters[11].Value = foto;
 
                     sqlComm.ExecuteNonQuery();
-                    mensaje = sqlComm.Parameters[11].Value.ToString();
+                    mensaje = sqlComm.Parameters[12].Value.ToString();
 
                     this.Close();
                     return true;
@@ -606,9 +608,10 @@ namespace VeciHelp.BD
         }
 
         //metodo que valida si el correo y el codigo de verificacion son validos para crear el usuario
-        public bool p_ValidaCorreoyCodigo(string correo, string codigoVerificacion, out string mensaje)
+        public bool p_ValidaCorreoyCodigo(string correo, string codigoVerificacion, out string mensaje,out int tipoUsuario)
         {
             mensaje = string.Empty;
+            tipoUsuario = 0;
             String _sql = string.Format("p_ValidaCorreoyCodigo");
             try
             {
@@ -620,6 +623,7 @@ namespace VeciHelp.BD
                     sqlComm.Parameters.Add("@Correo", SqlDbType.VarChar, 100);
                     sqlComm.Parameters.Add("@CodigoVerificacion", SqlDbType.VarChar, 10);
                     sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@TipoUsuario", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
                     sqlComm.Parameters[0].Value = correo;
@@ -627,6 +631,7 @@ namespace VeciHelp.BD
 
                     sqlComm.ExecuteNonQuery();
                     mensaje = sqlComm.Parameters[2].Value.ToString();
+                    tipoUsuario = int.Parse(sqlComm.Parameters[3].Value.ToString());
 
                     this.Close();
                     return true;
@@ -1017,10 +1022,10 @@ namespace VeciHelp.BD
         }
 
         //metodo con el que un usuario finaliza una alerta
-        public bool p_CancelaAcudirLlamadoUpd(int idUsuario, int idAlerta, out string mensaje)
+        public bool P_AcudirLlamadoUpd(int idUsuario, int idAlerta, out string mensaje)
         {
             mensaje = string.Empty;
-            String _sql = string.Format("p_CancelaAcudirLlamadoUpd");
+            String _sql = string.Format("p_AcudirLlamadoUpd");
             try
             {
                 if (this.Open())
@@ -1231,9 +1236,9 @@ namespace VeciHelp.BD
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
                     sqlComm.Parameters.Add("@Id_Usuario", SqlDbType.Int);
-                    sqlComm.Parameters.Add("@Nombre", SqlDbType.VarChar, 100);
-                    sqlComm.Parameters.Add("@NroEmergencia", SqlDbType.VarChar,20);
-                    sqlComm.Parameters.Add("@CantMinima", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Organizacion", SqlDbType.VarChar, 200);
+                    sqlComm.Parameters.Add("@NumeroEmergencia", SqlDbType.VarChar,15);
+                    sqlComm.Parameters.Add("@CantidadMinimaAyuda", SqlDbType.Int);
                     sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
 
                     sqlComm.Parameters[0].Value = idUsuario;
@@ -1260,6 +1265,233 @@ namespace VeciHelp.BD
 
         #endregion
 
+        #region VeciHelp
 
+        public bool p_CodigoVerificacionAdministradorGenera(string correo, int idOrganizacion, out string mensaje)
+        {
+            mensaje = string.Empty;
+            String _sql = string.Format("p_CodigoVerificacionAdministradorGenera");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Correo", SqlDbType.VarChar, 100);
+                    sqlComm.Parameters.Add("@Id_Organizacion", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+
+                    sqlComm.Parameters[0].Value = correo;
+                    sqlComm.Parameters[1].Value = idOrganizacion;
+
+                    sqlComm.ExecuteNonQuery();
+                    mensaje = sqlComm.Parameters[2].Value.ToString();
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
+        }
+
+        public List<Pais> P_PaisLst()
+        {
+            List<Pais> paisLst = new List<Pais>();
+
+            String _sql = string.Format("p_PaisLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Pais pais = new Pais();
+
+                            pais.idPais = int.Parse(dr[0].ToString());
+                            pais.nombre = dr[1].ToString();
+                            paisLst.Add(pais);
+                        }
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+            return paisLst;
+        }
+
+        public List<RegionModel> P_RegionLst(int idPais)
+        {
+            List<RegionModel> regionLst = new List<RegionModel>();
+
+            String _sql = string.Format("p_RegionLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Pais", SqlDbType.Int);
+                    sqlComm.Parameters[0].Value = idPais;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            RegionModel region = new RegionModel();
+
+                            region.idRegion = int.Parse(dr[0].ToString());
+                            region.nombre = dr[1].ToString();
+                            regionLst.Add(region);
+                        }
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+            return regionLst;
+        }
+
+        public List<Provincia> P_ProvinciaLst(int idRegion)
+        {
+            List<Provincia> privinciaLst = new List<Provincia>();
+
+            String _sql = string.Format("p_ProvinciaLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Region", SqlDbType.Int);
+                    sqlComm.Parameters[0].Value = idRegion;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Provincia provincia = new Provincia();
+
+                            provincia.idProvincia = int.Parse(dr[0].ToString());
+                            provincia.nombre = dr[1].ToString();
+                            privinciaLst.Add(provincia);
+                        }
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+            return privinciaLst;
+        }
+
+        public List<Ciudad> P_CiudadLst(int idProvincia)
+        {
+            List<Ciudad> ciudadLst = new List<Ciudad>();
+
+            String _sql = string.Format("p_CiudadLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Provincia", SqlDbType.Int);
+                    sqlComm.Parameters[0].Value = idProvincia;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Ciudad ciudad = new Ciudad();
+
+                            ciudad.idCiudad = int.Parse(dr[0].ToString());
+                            ciudad.nombre = dr[1].ToString();
+                            ciudadLst.Add(ciudad);
+                        }
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+            return ciudadLst;
+        }
+
+        public List<Comuna> P_ComunaLst(int idCiudad)
+        {
+            List<Comuna> comunaLst = new List<Comuna>();
+
+            String _sql = string.Format("p_ComunaLst");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Ciudad", SqlDbType.Int);
+                    sqlComm.Parameters[0].Value = idCiudad;
+
+                    SqlDataReader dr = sqlComm.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Comuna comuna = new Comuna();
+
+                            comuna.idComuna = int.Parse(dr[0].ToString());
+                            comuna.nombre = dr[1].ToString();
+                            comunaLst.Add(comuna);
+                        }
+                    }
+                    this.Close();
+                }
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+            }
+            return comunaLst;
+        }
+        #endregion
     }
 }

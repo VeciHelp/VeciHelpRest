@@ -24,6 +24,7 @@ namespace VeciHelp.Models
         public string Direccion { get; set; }
         public string Clave { get; set; }
         public int IdUsuarioCreador { get; set; }
+        public string Foto { get; set; }
 
         private BaseDatos bd;
 
@@ -36,7 +37,7 @@ namespace VeciHelp.Models
         {
             bd = new BaseDatos();
 
-            if (bd.p_UsuarioAdministradorIns(this.Correo,this.CodigoVerificacion,this.Nombre,this.Apellido,this.Rut,this.Digito,this.AntecedentesSalud,this.FechaNacimiento,this.Celular,this.Direccion,this.Clave,out mensaje))
+            if (bd.p_UsuarioAdministradorIns(this.Correo,this.CodigoVerificacion,this.Nombre,this.Apellido,this.Rut,this.Digito,this.AntecedentesSalud,this.FechaNacimiento,this.Celular,this.Direccion,this.Clave,this.Foto,out mensaje))
             {
                 return true;
             }

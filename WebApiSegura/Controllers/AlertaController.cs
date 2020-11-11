@@ -92,7 +92,7 @@ namespace WebApiSegura.Controllers
             Alerta alert = new Alerta();
             var respuesta = string.Empty;
 
-            if (alert.M_CancelaAcudirLlamadoUpd(alerta.idUsuario, alerta.idAlerta, out respuesta))
+            if (alert.M_AcudirLlamadoUpd(alerta.idUsuario, alerta.idAlerta, out respuesta))
             {
                 return Ok(respuesta);
             }

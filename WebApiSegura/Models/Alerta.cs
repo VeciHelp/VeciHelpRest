@@ -8,6 +8,10 @@ using System.Web;
 using System.Web.Script.Serialization;
 using VeciHelp.BD;
 
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
+
 namespace WebApiSegura.Models
 {
     public class Alerta
@@ -79,11 +83,11 @@ namespace WebApiSegura.Models
             return bd.P_AcudirLlamadoIns(idUsuario, idAlerta, out mensaje);
         }
 
-        public bool M_CancelaAcudirLlamadoUpd(int idUsuario, int idAlerta, out string mensaje)
+        public bool M_AcudirLlamadoUpd(int idUsuario, int idAlerta, out string mensaje)
         {
             mensaje = string.Empty;
             bd = new BaseDatos();
-            return bd.p_CancelaAcudirLlamadoUpd(idUsuario, idAlerta, out mensaje);
+            return bd.P_AcudirLlamadoUpd(idUsuario, idAlerta, out mensaje);
         }
 
         public List<Alerta> M_AlertaLst(int idUsuario)
@@ -102,15 +106,22 @@ namespace WebApiSegura.Models
 
 
         //metodos para enviar las alertas
-        public  string SendNotification(string[] tokenList, string titulo, string mensaje)
+        public string SendNotification(string[] tokenList, string titulo, string mensaje)
         {
             string webAddr = "https://fcm.googleapis.com/fcm/send";
+            string DatabaseSirena = "https://vecihelpapk.firebaseio.com/Comunidad/id_Comunidad.json";
             string serverKey = "AAAAJsP8Zq8:APA91bG4UU1OvFpwQRq3Xl_uw4JC7MMYHcGm8d2mVwkF45Km0L0ztw3Gt1hjbInUweqWd9NqdV8OQmlOxa440aw4snOcUsDq0Ty8eDQg5KSe-IzI1GbLMPDDBlXIo1jTIwG-smyl_eTd";
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
+            var httpWebRequestSirena = (HttpWebRequest)WebRequest.Create(DatabaseSirena);
+
             httpWebRequest.ContentType = "application/json";
+            httpWebRequestSirena.ContentType = "application/json";
+
             httpWebRequest.Headers.Add(string.Format("Authorization: key={0}", serverKey));
+
             httpWebRequest.Method = "POST";
+            httpWebRequestSirena.Method = "PATCH";
 
             var payload = new
             {
@@ -123,7 +134,16 @@ namespace WebApiSegura.Models
                     title = titulo
                 },
             };
+
+            var Sirena = new
+            {
+                Estado_Sirena= 1
+            };
+
+
             var serializer = new JavaScriptSerializer();
+
+            var serializer2 = new JavaScriptSerializer();
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
                 string json = serializer.Serialize(payload);
@@ -131,7 +151,17 @@ namespace WebApiSegura.Models
                 streamWriter.Flush();
             }
 
+            using (var streamWriter = new StreamWriter(httpWebRequestSirena.GetRequestStream()))
+            {
+                string json2 = serializer2.Serialize(Sirena);
+                streamWriter.Write(json2);
+                streamWriter.Flush();
+            }
+
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+            var httpResponse2 = (HttpWebResponse)httpWebRequestSirena.GetResponse();
+
 
             if (httpResponse.StatusCode == HttpStatusCode.OK)
             {
@@ -147,8 +177,8 @@ namespace WebApiSegura.Models
                 return "Error al enviar alerta";
             }
 
-          
-            
         }
+
+
     }
 }

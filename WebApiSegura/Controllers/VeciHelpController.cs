@@ -9,8 +9,7 @@ using WebApiSegura.Models;
 
 namespace WebApiSegura.Controllers
 {
-    //[Authorize(Roles = "VeciHelp")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Sistemas")]
     [RoutePrefix("api/v1/vecihelp")]
     public class VeciHelpController : ApiController
     {

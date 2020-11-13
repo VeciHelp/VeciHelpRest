@@ -17,7 +17,7 @@ namespace WebApiSegura.Controllers
         [HttpPost]
         [Route("EnrolarAdmin")]
         //metodo para enrolar administradores
-        public IHttpActionResult EnrolarUsr(RequestEnrolar enrolar)
+        public IHttpActionResult EnrolarAdmin(RequestEnrolar enrolar)
         {
             var respuesta = "error";
 
@@ -28,6 +28,27 @@ namespace WebApiSegura.Controllers
             else
                 return Ok(respuesta);
         }
+
+        [HttpPost]
+        [Route("CrearOrganizacion")]
+        //metodo para enrolar administradores
+        public IHttpActionResult CrearOrganizacion(Organizacion orga)
+        {
+            Organizacion organ = new Organizacion();
+
+            var respuesta = "error";
+            var idOrganizacion = 0;
+
+            if (orga.M_OrganizacionIns(orga.idComuna,orga.nombre,out respuesta,out idOrganizacion))
+            {
+                organ.idOrganizacion = idOrganizacion;
+                organ.mensaje = respuesta;
+                return Ok(organ);
+            }
+            else
+                return NotFound();
+        }
+
 
         [HttpGet]
         [Route("GetPais")]

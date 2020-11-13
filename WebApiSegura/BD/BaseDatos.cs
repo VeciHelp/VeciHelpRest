@@ -1199,7 +1199,11 @@ namespace VeciHelp.BD
                         {
                             org.nombre = dr[0].ToString();
                             org.nroEmergencia = dr[1].ToString();
-                            org.cantMinAyuda = int.Parse(dr[2].ToString());
+                            org.cantMinAyuda = 0;
+                            if (dr[2].ToString().Trim().Length!=0)
+                            {
+                                org.cantMinAyuda = int.Parse(dr[2].ToString());
+                            }
                             org.comuna = dr[3].ToString();
                             org.ciudad = dr[4].ToString();
                             org.provincia = dr[5].ToString();
@@ -1491,6 +1495,46 @@ namespace VeciHelp.BD
                 this.Close();
             }
             return comunaLst;
+        }
+
+
+        public bool P_OrganizacionIns(int idComuna, string nombreOrg, out string mensaje,out int idOrganizacion)
+        {
+            mensaje = string.Empty;
+            idOrganizacion = 0;
+
+            String _sql = string.Format("p_OrganizacionIns");
+            try
+            {
+                if (this.Open())
+                {
+                    SqlCommand sqlComm = new SqlCommand(_sql, cnn);
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+                    sqlComm.Parameters.Add("@Id_Comuna", SqlDbType.Int);
+                    sqlComm.Parameters.Add("@Organizacion", SqlDbType.VarChar,200);
+                    sqlComm.Parameters.Add("@Mensaje", SqlDbType.VarChar, 100).Direction = ParameterDirection.Output;
+                    sqlComm.Parameters.Add("@Id_Organizacion", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                    sqlComm.Parameters[0].Value = idComuna;
+                    sqlComm.Parameters[1].Value = nombreOrg;
+
+                    sqlComm.ExecuteNonQuery();
+
+                    mensaje = sqlComm.Parameters[2].Value.ToString();
+                    idOrganizacion =int.Parse(sqlComm.Parameters[3].Value.ToString());
+
+                    this.Close();
+                    return true;
+                }
+                return false;
+            }
+            catch (SqlException e)
+            {
+                //Logger.InformeErrores(maquina.ToString(), e.Message, "Insertar_Registro [BaseDatos]");
+                this.Close();
+                return false;
+            }
         }
         #endregion
     }

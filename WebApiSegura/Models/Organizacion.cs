@@ -19,6 +19,9 @@ namespace WebApiSegura.Models
         public string provincia { get; set; }
         public string region { get; set; }
         public string pais { get; set; }
+        public int idComuna { get; set; }
+        public int idOrganizacion { get; set; }
+        public string mensaje { get; set; }
 
         private BaseDatos bd;
 
@@ -38,6 +41,12 @@ namespace WebApiSegura.Models
         {
             bd = new BaseDatos();
             return bd.p_OrganizacionUpd(this.idUsuario, this.nombre,this.nroEmergencia,this.cantMinAyuda,out mensaje);
+        }
+
+        public bool M_OrganizacionIns(int idComuna,string nombreOrg, out string mensaje, out int idOrganizacion)
+        {
+            bd = new BaseDatos();
+            return bd.P_OrganizacionIns(idComuna,nombreOrg, out mensaje,out idOrganizacion);
         }
     }
 }
